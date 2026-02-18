@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>About — MTGA Collection Strategy</title>
+  <link rel="stylesheet" href="assets/css/style.css" />
+</head>
+<body>
+  <div class="container">
+    <nav class="nav">
+      <div class="brand">MTGA Collection Strategy</div>
+      <a data-nav href="index.html">Home</a>
+      <a data-nav href="about.html">About</a>
+      <a data-nav href="math.html">The Math</a>
+      <a data-nav href="calculator.html">Calculator</a>
+    </nav>
+
+    <div class="card">
+      <h1>About</h1>
+      <p>
+        The goal: help players choose an efficient plan to complete a full set on MTG Arena.
+        The calculator takes your current collection counts (C/U/R/M) and gives a recommended path.
+      </p>
+      <p class="muted">
+        You control the assumptions. The Math page documents them, so the output isn’t a black box.
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>Assumptions</h2>
+      <p>
+        Add the assumptions you used (pack composition model, duplicate protection details you’re assuming,
+        draft outcomes, wildcards, etc.).
+      </p>
+    </div>
+  </div>
+
+  <script type="module">
+    import { setActiveNav } from './assets/js/common.js';
+    setActiveNav();
+  </script>
+</body>
+</html>

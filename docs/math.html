@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>The Math — MTGA Collection Strategy</title>
+  <link rel="stylesheet" href="assets/css/style.css" />
+
+  <!-- MathJax config -->
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']]
+      },
+      svg: { fontCache: 'global' }
+    };
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+<body>
+  <div class="container">
+    <nav class="nav">
+      <div class="brand">MTGA Collection Strategy</div>
+      <a data-nav href="index.html">Home</a>
+      <a data-nav href="about.html">About</a>
+      <a data-nav href="math.html">The Math</a>
+      <a data-nav href="calculator.html">Calculator</a>
+    </nav>
+
+    <div class="card">
+      <h1>The Math</h1>
+      <p>
+        This page explains the model and equations used by the calculator.
+        Replace the examples below with your real derivations.
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>Example equation</h2>
+      <p>Inline: $E[X] = \sum_i p_i x_i$</p>
+      <p>Display:</p>
+      <p>
+        $$P(\text{missing after }n) = \prod_{k=1}^{n} \left(1 - \frac{m}{T}\right)$$
+      </p>
+      <p class="muted">
+        If you want faster rendering and can live with partial LaTeX support, KaTeX is another option.
+      </p>
+    </div>
+  </div>
+
+  <script type="module">
+    import { setActiveNav } from './assets/js/common.js';
+    setActiveNav();
+  </script>
+</body>
+</html>

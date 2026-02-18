@@ -1,0 +1,8 @@
+[
+  {
+    "code": "EXAMPLE",
+    "name": "Example Set (replace me)",
+    "totalDistinct": { "common": 100, "uncommon": 80, "rare": 60, "mythic": 20 },
+    "notes": "Put whatever extra parameters your math needs here (pack rates, bonus sheets, etc.)."
+  }
+]

@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Calculator — MTGA Collection Strategy</title>
+  <link rel="stylesheet" href="assets/css/style.css" />
+</head>
+<body>
+  <div class="container">
+    <nav class="nav">
+      <div class="brand">MTGA Collection Strategy</div>
+      <a data-nav href="index.html">Home</a>
+      <a data-nav href="about.html">About</a>
+      <a data-nav href="math.html">The Math</a>
+      <a data-nav href="calculator.html">Calculator</a>
+    </nav>
+
+    <div class="card">
+      <h1>Calculator</h1>
+      <p class="muted">Pick a set and enter how many distinct cards you already own at each rarity.</p>
+    </div>
+
+    <div class="card">
+      <div class="grid">
+        <div>
+          <label for="setSelect">Set</label>
+          <select id="setSelect"></select>
+          <small class="muted" id="setMeta"></small>
+        </div>
+        <div>
+          <label>&nbsp;</label>
+          <button id="runBtn">Run calculation</button>
+          <small class="muted">Outputs appear below.</small>
+        </div>
+
+        <div>
+          <label for="ownedCommon">Owned Commons (distinct)</label>
+          <input id="ownedCommon" inputmode="numeric" placeholder="0" />
+        </div>
+        <div>
+          <label for="ownedUncommon">Owned Uncommons (distinct)</label>
+          <input id="ownedUncommon" inputmode="numeric" placeholder="0" />
+        </div>
+        <div>
+          <label for="ownedRare">Owned Rares (distinct)</label>
+          <input id="ownedRare" inputmode="numeric" placeholder="0" />
+        </div>
+        <div>
+          <label for="ownedMythic">Owned Mythics (distinct)</label>
+          <input id="ownedMythic" inputmode="numeric" placeholder="0" />
+        </div>
+      </div>
+      <p id="err" class="error"></p>
+    </div>
+
+    <div class="card">
+      <h2>Result</h2>
+      <div id="result" class="result muted">No result yet.</div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { setActiveNav } from './assets/js/common.js';
+    setActiveNav();
+  </script>
+  <script type="module" src="assets/js/calculator.js"></script>
+</body>
+</html>
