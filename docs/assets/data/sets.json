@@ -1,8 +1,156 @@
 [
   {
-    "code": "EXAMPLE",
-    "name": "Example Set (replace me)",
-    "totalDistinct": { "common": 100, "uncommon": 80, "rare": 60, "mythic": 20 },
-    "notes": "Put whatever extra parameters your math needs here (pack rates, bonus sheets, etc.)."
+    "code": "AECL",
+    "name": "Alchemy: Lorwyn",
+    "totalDistinct": { "common": 0, "uncommon": 10, "rare": 15, "mythic": 5 },
+    "alpha": 7,
+    "notes": ""
+  },
+  {
+    "code": "ECL",
+    "name": "Lorwyn Eclipsed",
+    "totalDistinct": { "common": 81, "uncommon": 100, "rare": 65, "mythic": 22 },
+    "alpha": 7,
+    "notes": ""
+  },
+  {
+    "code": "TLA",
+    "name": "Avatar: The Last Airbender",
+    "totalDistinct": { "common": 324, "uncommon": 110, "rare": 60, "mythic": 20 },
+    "alpha": 7,
+    "notes": ""
+  },
+  {
+    "code": "SPM",
+    "name": "Through the Omenpaths",
+    "totalDistinct": { "common": 240, "uncommon": 220, "rare": 212, "mythic": 60 },
+    "alpha": 8.1,
+    "notes": ""
+  },
+  {
+    "code": "AEOE",
+    "name": "Alchemy: Edge of Eternities",
+    "totalDistinct": { "common": 0, "uncommon": 10, "rare": 25, "mythic": 5 },
+    "alpha": 7,
+    "notes": ""
+  },
+  {
+    "code": "EOE",
+    "name": "Edge of Eternities",
+    "totalDistinct": { "common": 81, "uncommon": 100, "rare": 60, "mythic": 20 },
+    "alpha": 7,
+    "notes": ""
+  },
+  {
+    "code": "FIN",
+    "name": "FINAL FANTASY",
+    "totalDistinct": { "common": 80, "uncommon": 109, "rare": 74, "mythic": 20 },
+    "alpha": 8.4,
+    "notes": ""
+  },
+  {
+    "code": "ATDM",
+    "name": "Alchemy: Tarkir",
+    "totalDistinct": { "common": 0, "uncommon": 10, "rare": 15, "mythic": 5 },
+    "alpha": 7,
+    "notes": ""
+  },
+  {
+    "code": "TDM",
+    "name": "Tarkir: Dragonstorm",
+    "totalDistinct": { "common": 81, "uncommon": 100, "rare": 60, "mythic": 20 },
+    "alpha": 7,
+    "notes": ""
+  },
+  {
+    "code": "ADFT",
+    "name": "Alchemy: Aetherdrift",
+    "totalDistinct": { "common": 0, "uncommon": 10, "rare": 15, "mythic": 5 },
+    "alpha": 7,
+    "notes": ""
+  },
+  {
+    "code": "DFT",
+    "name": "Aetherdrift",
+    "totalDistinct": { "common": 81, "uncommon": 100, "rare": 60, "mythic": 20 },
+    "alpha": 7,
+    "notes": ""
+  },
+  {
+    "code": "PIO",
+    "name": "Pioneer Masters",
+    "totalDistinct": { "common": 96, "uncommon": 160, "rare": 70, "mythic": 62 },
+    "alpha": 7,
+    "notes": ""
+  },
+  {
+    "code": "FDN",
+    "name": "Magic: The Gathering Foundations",
+    "totalDistinct": { "common": 80, "uncommon": 101, "rare": 60, "mythic": 20 },
+    "alpha": 7,
+    "notes": ""
+  },
+  {
+    "code": "ADSK",
+    "name": "Alchemy: Duskmourn",
+    "totalDistinct": { "common": 0, "uncommon": 10, "rare": 15, "mythic": 5 },
+    "alpha": 7,
+    "notes": ""
+  },
+  {
+    "code": "DSK",
+    "name": "Duskmourn: House of Horror",
+    "totalDistinct": { "common": 81, "uncommon": 100, "rare": 60, "mythic": 20 },
+    "alpha": 7,
+    "notes": ""
+  },
+  {
+    "code": "ABLB",
+    "name": "Alchemy: Bloomburrow",
+    "totalDistinct": { "common": 0, "uncommon": 10, "rare": 15, "mythic": 5 },
+    "alpha": 7,
+    "notes": ""
+  },
+  {
+    "code": "BLB",
+    "name": "Bloomburrow",
+    "totalDistinct": { "common": 81, "uncommon": 100, "rare": 60, "mythic": 20 },
+    "alpha": 7,
+    "notes": ""
+  },
+  {
+    "code": "MH3",
+    "name": "Modern Horizons 3",
+    "totalDistinct": { "common": 80, "uncommon": 120, "rare": 78, "mythic": 24 },
+    "alpha": 7,
+    "notes": ""
+  },
+  {
+    "code": "AOTJ",
+    "name": "Alchemy: Thunder Junction",
+    "totalDistinct": { "common": 0, "uncommon": 10, "rare": 15, "mythic": 5 },
+    "alpha": 7,
+    "notes": ""
+  },
+  {
+    "code": "OTJ",
+    "name": "Outlaws of Thunder Junction",
+    "totalDistinct": { "common": 81, "uncommon": 100, "rare": 60, "mythic": 20 },
+    "alpha": 7,
+    "notes": ""
+  },
+  {
+    "code": "AMKM",
+    "name": "Alchemy: Karlov Manor",
+    "totalDistinct": { "common": 0, "uncommon": 10, "rare": 15, "mythic": 5 },
+    "alpha": 7,
+    "notes": ""
+  },
+  {
+    "code": "MKM",
+    "name": "Murders at Karlov Manor",
+    "totalDistinct": { "common": 81, "uncommon": 100, "rare": 70, "mythic": 20 },
+    "alpha": 8,
+    "notes": ""
   }
 ]

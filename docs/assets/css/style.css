@@ -100,9 +100,117 @@ button:hover{
 
 .result{
   white-space: pre-wrap;
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-  font-size: 13px;
+  font-family: inherit;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--text);
 }
 .error{
   color: #ff9aa2;
+}
+
+/* Calculator output styling */
+.result{
+  font-family: inherit;
+  color: var(--text);
+}
+
+.result-empty{
+  color: var(--muted);
+}
+
+.result h3{
+  margin: 0 0 10px;
+  font-size: 18px;
+}
+
+.result .sub{
+  margin-top: 4px;
+  color: var(--muted);
+}
+
+.result-grid{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-top: 12px;
+}
+@media (max-width: 720px){
+  .result-grid{ grid-template-columns: 1fr; }
+}
+
+.kpi{
+  background: #0f1520;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 14px;
+}
+
+.kpi .big{
+  font-size: 34px;
+  font-weight: 800;
+  letter-spacing: 0.2px;
+  line-height: 1.1;
+}
+.kpi .label{
+  color: var(--muted);
+  font-size: 13px;
+  margin-top: 4px;
+}
+
+.pills{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+.pill{
+  border: 1px solid var(--border);
+  background: #0f1520;
+  border-radius: 999px;
+  padding: 6px 10px;
+  font-size: 13px;
+  color: var(--text);
+}
+
+.table{
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+.table th, .table td{
+  border-bottom: 1px solid var(--border);
+  padding: 8px 6px;
+  text-align: left;
+  font-size: 14px;
+}
+.table th{
+  color: var(--muted);
+  font-weight: 600;
+}
+
+.row{
+  display: grid;
+  grid-template-columns: 90px 1fr 70px;
+  gap: 10px;
+  align-items: center;
+  margin: 10px 0;
+}
+.bar{
+  height: 10px;
+  background: #0f1520;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  overflow: hidden;
+}
+.bar > div{
+  height: 100%;
+  background: var(--accent);
+  width: 0%;
+}
+
+.note{
+  color: var(--muted);
+  font-size: 13px;
+  margin-top: 10px;
 }
