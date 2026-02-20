@@ -1,10 +1,9 @@
 // docs/assets/js/calculator.js
 //
 // Browser port of set_collection_take01.py (plots omitted).
-// Implements the same formulas + minimization over t=0..500, then prints a message.
-// See Python reference: average_collected, cost_total, argmin, message formatting.
+// Implements the same formulas + minimization over t=0..500.
 
-const SETS_JSON_PATH = "./assets/data/sets.json";
+const SETS_JSON_URL = new URL("../data/sets.json", import.meta.url);
 const T_MAX = 500;
 
 const els = {
@@ -26,30 +25,14 @@ function escapeText(s) {
 }
 
 function fmt2(x) {
-  // Similar intent to np.round(x,2) for display; we print up to 2 decimals but trim trailing zeros.
   const r = Math.round((x + Number.EPSILON) * 100) / 100;
   return r.toFixed(2).replace(/\.?0+$/, "");
-}
-
-function roundHalfToEvenInt(x) {
-  // Mimic numpy's "banker's rounding" behavior for .5 cases (important if you want exact parity with np.round).
-  // Values here should be non-negative in your model.
-  const eps = 1e-12;
-  const f = Math.floor(x);
-  const frac = x - f;
-
-  if (frac < 0.5 - eps) return f;
-  if (frac > 0.5 + eps) return f + 1;
-
-  // Exactly half (within eps)
-  return (f % 2 === 0) ? f : (f + 1);
 }
 
 function parseNonNegIntOrZero(raw, fieldName) {
   const s = String(raw ?? "").trim();
   if (s === "") return 0;
 
-  // Strict integer check (so "12.3" doesn't silently become 12 like parseInt would).
   if (!/^(0|[1-9]\d*)$/.test(s)) {
     throw new Error(`"${fieldName}" must be an integer (0 or higher).`);
   }
@@ -61,31 +44,13 @@ function parseNonNegIntOrZero(raw, fieldName) {
 }
 
 function averageCollected(t, n, N, c) {
-  // Python: N - (N-c)*(((N-n)/N)**t)
-  // Guard: if N==0, treat as 0 cards exist, so collected is 0.
   if (N <= 0) return 0;
-
-  // If already complete, stay complete.
   if (c >= N) return N;
-
   const base = (N - n) / N;
   return N - (N - c) * Math.pow(base, t);
 }
 
 function packParameters(alpha) {
-  // Python per-pack expectations:
-  // non-wildcards:
-  // n_C = 14/3
-  // n_U = 9/5
-  // n_R = (1 - 1/alpha) * (1 - 1/30)
-  // n_M = (1/alpha) * (1 - 1/30)
-  //
-  // wildcards:
-  // w_C = 1/3
-  // w_U = 11/30
-  // w_R = (1/6) * (1 - 1/(5*alpha))
-  // w_M = (1/30) * (1 + 1/alpha)
-
   const nC = 14 / 3;
   const nU = 9 / 5;
   const nR = (1 - 1 / alpha) * (1 - 1 / 30);
@@ -101,27 +66,18 @@ function packParameters(alpha) {
   const vR = 1 / wR;
   const vM = 1 / wM;
 
-  return { nC, nU, nR, nM, wC, wU, wR, wM, vC, vU, vR, vM };
+  return { nC, nU, nR, nM, vC, vU, vR, vM };
 }
 
 function validateInputs({ totals, owned }) {
   const { common: NC, uncommon: NU, rare: NR, mythic: NM } = totals;
   const { common: cC, uncommon: cU, rare: cR, mythic: cM } = owned;
 
-  // Match Python intent: integers already enforced; now bounds checks.
   if (cC > NC || cU > NU || cR > NR || cM > NM) {
     throw new Error(
       "The number of owned cards of a single type must not exceed the number of cards of that type in the set."
     );
   }
-  if (cC < 0 || cU < 0 || cR < 0 || cM < 0) {
-    throw new Error("All four fields must be integers (0 or higher).");
-  }
-}
-
-function rarityLine(owned, total, label) {
-  if (total <= 0) return null;
-  return `${owned} / ${total} ${label}`;
 }
 
 function computeStrategy(setObj, owned) {
@@ -143,7 +99,6 @@ function computeStrategy(setObj, owned) {
 
   const { nC, nU, nR, nM, vC, vU, vR, vM } = packParameters(alpha);
 
-  // Minimize cost_total over t = 0..T_MAX
   let bestT = 0;
   let bestCost = Number.POSITIVE_INFINITY;
 
@@ -160,14 +115,12 @@ function computeStrategy(setObj, owned) {
 
     const costTotal = t + missC * vC + missU * vU + missR * vR + missM * vM;
 
-    // Match np.argmin behavior: keep earliest t if tied.
     if (costTotal < bestCost) {
       bestCost = costTotal;
       bestT = t;
     }
   }
 
-  // Recompute values at the minimizer (like indexing arrays at ind_min)
   const PCbest = averageCollected(bestT, nC, NC, owned.common);
   const PUbest = averageCollected(bestT, nU, NU, owned.uncommon);
   const PRbest = averageCollected(bestT, nR, NR, owned.rare);
@@ -180,17 +133,11 @@ function computeStrategy(setObj, owned) {
     perWildcardPackValue: { vC, vU, vR, vM },
     bestT,
     bestCost,
-    expectedAfterPacks: {
-      C: PCbest,
-      U: PUbest,
-      R: PRbest,
-      M: PMbest,
-    },
+    expectedAfterPacks: { C: PCbest, U: PUbest, R: PRbest, M: PMbest },
   };
 }
 
 function bankersRoundInt(x) {
-  // Numpy-like half-to-even rounding for display parity
   const eps = 1e-12;
   const f = Math.floor(x);
   const frac = x - f;
@@ -202,10 +149,6 @@ function bankersRoundInt(x) {
 function pct(have, total) {
   if (total <= 0) return 0;
   return Math.max(0, Math.min(100, (have / total) * 100));
-}
-
-function rarityName(key) {
-  return ({ C: "Commons", U: "Uncommons", R: "Rares", M: "Mythics" })[key] || key;
 }
 
 function renderBarRow(label, have, total) {
@@ -221,18 +164,55 @@ function renderBarRow(label, have, total) {
   `;
 }
 
+function renderRemainderLines(remC, remU, remR, remM) {
+  const rows = [
+    ["Commons", remC],
+    ["Uncommons", remU],
+    ["Rares", remR],
+    ["Mythics", remM],
+  ];
+
+  return `
+    <div class="rem-lines">
+      ${rows.map(([k, v]) => `
+        <div class="rem-line"><span class="key">${k}</span>: <strong>${v}</strong></div>
+      `).join("")}
+    </div>
+  `;
+}
+
+function renderWildcardSummary(remC, remU, remR, remM) {
+  const wcWord = (n) => (n === 1 ? "wildcard" : "wildcards");
+
+  const lines = [
+    [remC, `Common ${wcWord(remC)}`],
+    [remU, `Uncommon ${wcWord(remU)}`],
+    [remR, `Rare ${wcWord(remR)}`],
+    [remM, `Mythic ${wcWord(remM)}`],
+  ];
+
+  return `
+    <div style="margin-top:6px; font-size:16px; line-height:1.35;">
+      ${lines
+        .map(
+          ([n, label]) =>
+            `<div><strong>${n}</strong>&nbsp&nbsp&nbsp<span class="muted">${label}</span></div>`
+        )
+        .join("")}
+    </div>
+  `;
+}
+
 function renderResult(out, setObj) {
   const { totals, owned, perWildcardPackValue, bestT, bestCost, expectedAfterPacks } = out;
   const { NC, NU, NR, NM } = totals;
   const { vC, vU, vR, vM } = perWildcardPackValue;
 
-  // Expected opened in packs (rounded for human-friendly display)
   const expC = bankersRoundInt(expectedAfterPacks.C);
   const expU = bankersRoundInt(expectedAfterPacks.U);
   const expR = bankersRoundInt(expectedAfterPacks.R);
   const expM = bankersRoundInt(expectedAfterPacks.M);
 
-  // “Remaining after packs” — what you’d plan to cover with wildcards (expected)
   const remC = Math.max(0, NC - expC);
   const remU = Math.max(0, NU - expU);
   const remR = Math.max(0, NR - expR);
@@ -240,71 +220,61 @@ function renderResult(out, setObj) {
 
   const setTitle = `${setObj.name} (${setObj.code})`;
 
-  els.result.innerHTML = `
-    <h3>Recommendation</h3>
-    <div class="sub">
-      Open packs first, then spend wildcards to finish the set.
-    </div>
+  
+  els.result.innerHTML = `<h3>Recommendation</h3><br>
+  <div class="sub">${
+    bestT === 0
+      ? "You're already in a state of diminishing returns when opening packs; time to start cracking wildcards."
+      : "Open packs first, then use wildcards to finish."
+  }</div><br>
 
-    <div class="result-grid">
-      <div class="kpi">
-        <div class="big">${bestT}</div>
-        <div class="label">packs to open before using wildcards</div>
-        <div class="pills">
-          <div class="pill">α = ${out.alpha}</div>
-          <div class="pill">${setTitle}</div>
-        </div>
-      </div>
-
-      <div class="kpi">
-        <div class="big">${(Math.round((bestCost + Number.EPSILON) * 100) / 100).toFixed(2).replace(/\.?0+$/,"")}</div>
-        <div class="label">minimum expected “effective pack cost”</div>
-        <div class="note">This is the model’s total cost metric (packs + wildcard-equivalent packs). Useful for comparisons, not a promise.</div>
+  <div class="result-grid">
+    <div class="kpi">
+      <div class="big">${bestT}</div>
+      <div class="label">packs to open before crafting.</div><br>
+      <div class="pills">
+        <div class="pill">${setTitle}</div>
       </div>
     </div>
 
-    <div class="result-grid">
-      <div class="kpi">
-        <h3 style="margin-bottom:6px;">Starting collection</h3>
-        ${renderBarRow("Common", owned.common, NC)}
-        ${renderBarRow("Uncommon", owned.uncommon, NU)}
-        ${renderBarRow("Rare", owned.rare, NR)}
-        ${renderBarRow("Mythic", owned.mythic, NM)}
-      </div>
+    <div class="kpi">
+      ${renderWildcardSummary(remC, remU, remR, remM)}
+    </div>
+  </div>
 
-      <div class="kpi">
-        <h3 style="margin-bottom:6px;">Expected after opening ${bestT} packs</h3>
-        ${renderBarRow("Common", expC, NC)}
-        ${renderBarRow("Uncommon", expU, NU)}
-        ${renderBarRow("Rare", expR, NR)}
-        ${renderBarRow("Mythic", expM, NM)}
-        <div class="note">
-          Then plan to cover the remainder with wildcards (expected):
-          <strong>${remC}C</strong>, <strong>${remU}U</strong>, <strong>${remR}R</strong>, <strong>${remM}M</strong>.
-          Actual results vary.
-        </div>
-      </div>
+  <div class="result-grid">
+    <div class="kpi">
+      <div class="section-title">Starting collection</div>
+      ${renderBarRow("Common", owned.common, NC)}
+      ${renderBarRow("Uncommon", owned.uncommon, NU)}
+      ${renderBarRow("Rare", owned.rare, NR)}
+      ${renderBarRow("Mythic", owned.mythic, NM)}
     </div>
 
-    <div class="kpi" style="margin-top:14px;">
-      <h3 style="margin-bottom:6px;">Wildcard value in this model</h3>
-      <div class="sub">Each wildcard is treated as “worth” this many packs (based on expected rates).</div>
-      <table class="table">
-        <thead>
-          <tr><th>Wildcard</th><th>Equivalent packs</th></tr>
-        </thead>
-        <tbody>
-          <tr><td>Common</td><td>${fmt2(vC)} packs</td></tr>
-          <tr><td>Uncommon</td><td>${fmt2(vU)} packs</td></tr>
-          <tr><td>Rare</td><td>${fmt2(vR)} packs</td></tr>
-          <tr><td>Mythic</td><td>${fmt2(vM)} packs</td></tr>
-        </tbody>
-      </table>
-      <div class="note">
-        If your assumptions about pack contents or wildcard rates differ, update the model on the Math page and in the calculator code.
-      </div>
+    <div class="kpi">
+      <div class="section-title">Expected after opening ${bestT} packs (before wildcards)</div>
+      ${renderBarRow("Common", expC, NC)}
+      ${renderBarRow("Uncommon", expU, NU)}
+      ${renderBarRow("Rare", expR, NR)}
+      ${renderBarRow("Mythic", expM, NM)}
     </div>
-  `;
+  </div>
+
+  <div class="kpi" style="margin-top:10px;">
+    <div class="section-title">Wildcard values in this model</div><br>
+    <div class="sub">Each wildcard is treated as “worth” this many packs.</div><br>
+    <table class="table">
+      <thead>
+        <tr><th>Wildcard</th><th>Equivalent packs</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Common</td><td>${fmt2(vC)} packs</td></tr>
+        <tr><td>Uncommon</td><td>${fmt2(vU)} packs</td></tr>
+        <tr><td>Rare</td><td>${fmt2(vR)} packs</td></tr>
+        <tr><td>Mythic</td><td>${fmt2(vM)} packs</td></tr>
+      </tbody>
+    </table>
+  </div>`;
 }
 
 function renderSetMeta(setObj) {
@@ -313,23 +283,32 @@ function renderSetMeta(setObj) {
 
   const bits = [];
   bits.push(`Total distinct — C:${t.common ?? 0}, U:${t.uncommon ?? 0}, R:${t.rare ?? 0}, M:${t.mythic ?? 0}`);
-  if (alpha != null) bits.push(`α=${alpha}`);
+  if (alpha != null) bits.push(`M:R=1:${alpha}`);
   if (setObj.notes) bits.push(String(setObj.notes).trim());
 
   els.setMeta.textContent = bits.filter(Boolean).join(" • ");
 }
 
+function resetResult() {
+  els.result.innerHTML = `<div class="result-empty">Run the calculator to see a recommendation.</div>`;
+  els.result.classList.add("muted");
+}
+
 async function init() {
-  // Load sets.json
-  const res = await fetch(SETS_JSON_PATH, { cache: "no-store" });
-  if (!res.ok) throw new Error(`Failed to load ${SETS_JSON_PATH} (HTTP ${res.status})`);
+  // Optional: show something immediately
+  els.setSelect.disabled = true;
+  els.setSelect.innerHTML = `<option value="">Loading…</option>`;
+
+  const res = await fetch(SETS_JSON_URL, { cache: "no-store" });
+  if (!res.ok) throw new Error(`Failed to load ${SETS_JSON_URL.pathname} (HTTP ${res.status})`);
   sets = await res.json();
+
+  els.setSelect.disabled = false;
 
   if (!Array.isArray(sets) || sets.length === 0) {
     throw new Error("sets.json is empty or invalid.");
   }
 
-  // Populate dropdown
   els.setSelect.innerHTML = sets
     .map((s, i) => `<option value="${i}">${escapeText(s.name)} (${escapeText(s.code)})</option>`)
     .join("");
@@ -338,11 +317,9 @@ async function init() {
 
   els.setSelect.addEventListener("change", () => {
     els.err.textContent = "";
-    els.result.textContent = "No result yet.";
-    els.result.classList.add("muted");
-
     const idx = Number(els.setSelect.value);
     renderSetMeta(sets[idx]);
+    resetResult();
   });
 
   els.runBtn.addEventListener("click", () => {
@@ -369,5 +346,8 @@ async function init() {
 }
 
 init().catch((e) => {
-  els.err.textContent = e?.message ? String(e.message) : String(e);
+  const msg = e?.message ? String(e.message) : String(e);
+  const errEl = document.getElementById("err");
+  if (errEl) errEl.textContent = msg;
+  console.error(e);
 });

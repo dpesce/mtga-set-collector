@@ -23,7 +23,7 @@
   {
     "code": "SPM",
     "name": "Through the Omenpaths",
-    "totalDistinct": { "common": 240, "uncommon": 220, "rare": 212, "mythic": 60 },
+    "totalDistinct": { "common": 80, "uncommon": 55, "rare": 53, "mythic": 20 },
     "alpha": 8.1,
     "notes": ""
   },

@@ -8,6 +8,7 @@
 }
 
 *{ box-sizing:border-box; }
+
 body{
   margin:0;
   font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
@@ -61,6 +62,7 @@ a:hover{ text-decoration:underline; }
 
 h1{ font-size: 28px; margin:0 0 10px; }
 h2{ font-size: 18px; margin:18px 0 10px; color:var(--text); }
+
 p{ margin: 10px 0; color: var(--text); opacity: 0.95; }
 small, .muted{ color: var(--muted); }
 
@@ -79,6 +81,7 @@ label{
   color: var(--muted);
   margin-bottom: 6px;
 }
+
 input, select, button{
   width:100%;
   padding:10px 12px;
@@ -88,6 +91,7 @@ input, select, button{
   color:var(--text);
   font-size:14px;
 }
+
 button{
   background: #0f253a;
   border-color: #234a6b;
@@ -98,42 +102,49 @@ button:hover{
   filter: brightness(1.08);
 }
 
-.result{
-  white-space: pre-wrap;
-  font-family: inherit;
-  font-size: 14px;
-  line-height: 1.5;
-  color: var(--text);
-}
 .error{
   color: #ff9aa2;
 }
 
-/* Calculator output styling */
+/* ===== Calculator output (clean + moderately compact) ===== */
+
+/* IMPORTANT: do NOT use white-space: pre-wrap here.
+   That was the root cause of the “mystery whitespace” earlier. */
 .result{
   font-family: inherit;
   color: var(--text);
+  font-size: 14px;
+  line-height: 1.3;
 }
 
 .result-empty{
   color: var(--muted);
 }
 
+/* Only the output card is slightly tighter than a normal card */
+.card.card-tight{
+  padding: 12px;
+  margin: 12px 0;
+}
+
 .result h3{
-  margin: 0 0 10px;
-  font-size: 18px;
+  margin: 0;
+  font-size: 17px;
+  line-height: 1.2;
 }
 
 .result .sub{
-  margin-top: 4px;
+  margin: 4px 0 0;
   color: var(--muted);
+  font-size: 13px;
+  line-height: 1.25;
 }
 
 .result-grid{
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 14px;
-  margin-top: 12px;
+  gap: 10px;
+  margin-top: 10px;
 }
 @media (max-width: 720px){
   .result-grid{ grid-template-columns: 1fr; }
@@ -142,75 +153,113 @@ button:hover{
 .kpi{
   background: #0f1520;
   border: 1px solid var(--border);
-  border-radius: 14px;
-  padding: 14px;
+  border-radius: 12px;
+  padding: 10px;
 }
 
 .kpi .big{
-  font-size: 34px;
+  font-size: 30px;
   font-weight: 800;
   letter-spacing: 0.2px;
-  line-height: 1.1;
+  line-height: 1.05;
 }
+
 .kpi .label{
   color: var(--muted);
   font-size: 13px;
-  margin-top: 4px;
+  margin-top: 3px;
+  line-height: 1.25;
+}
+
+.section-title{
+  margin: 0 0 6px;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.2;
 }
 
 .pills{
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 10px;
+  gap: 6px;
+  margin-top: 8px;
 }
+
 .pill{
   border: 1px solid var(--border);
   background: #0f1520;
   border-radius: 999px;
-  padding: 6px 10px;
-  font-size: 13px;
+  padding: 4px 9px;
+  font-size: 12.5px;
   color: var(--text);
 }
 
-.table{
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 10px;
-}
-.table th, .table td{
-  border-bottom: 1px solid var(--border);
-  padding: 8px 6px;
-  text-align: left;
-  font-size: 14px;
-}
-.table th{
-  color: var(--muted);
-  font-weight: 600;
-}
-
+/* Progress rows */
 .row{
   display: grid;
-  grid-template-columns: 90px 1fr 70px;
-  gap: 10px;
+  grid-template-columns: 72px 1fr 66px;
+  gap: 8px;
   align-items: center;
-  margin: 10px 0;
+  margin: 20px 0;
 }
+
 .bar{
-  height: 10px;
+  height: 7px;
   background: #0f1520;
   border: 1px solid var(--border);
   border-radius: 999px;
   overflow: hidden;
 }
+
 .bar > div{
   height: 100%;
   background: var(--accent);
   width: 0%;
 }
 
+/* Notes + remainder list */
 .note{
   color: var(--muted);
   font-size: 13px;
-  margin-top: 10px;
+  margin-top: 6px;
+  line-height: 1.3;
+}
+
+.note-title{
+  margin: 0;
+  padding: 0;
+}
+
+.rem-lines{
+  margin-top: 4px;
+  display: grid;
+  gap: 3px;
+}
+
+.rem-line{
+  margin: 0;
+  padding: 0;
+}
+
+.rem-line .key{
+  color: var(--muted);
+}
+
+/* Wildcard table */
+.table{
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 8px;
+}
+
+.table th, .table td{
+  border-bottom: 1px solid var(--border);
+  padding: 6px 4px;
+  text-align: left;
+  font-size: 13.5px;
+}
+
+.table th{
+  color: var(--muted);
+  font-weight: 600;
 }
