@@ -16,6 +16,13 @@ const els = {
   runBtn: document.getElementById("runBtn"),
   err: document.getElementById("err"),
   result: document.getElementById("result"),
+  overrideC: document.getElementById("overrideC"),
+  overrideU: document.getElementById("overrideU"),
+  overrideR: document.getElementById("overrideR"),
+  overrideM: document.getElementById("overrideM"),
+  overrideAlpha: document.getElementById("overrideAlpha"),
+  advResetBtn: document.getElementById("advResetBtn"),
+  advDetails: document.getElementById("advDetails"),
 };
 
 let sets = [];
@@ -41,6 +48,63 @@ function parseNonNegIntOrZero(raw, fieldName) {
     throw new Error(`"${fieldName}" must be an integer (0 or higher).`);
   }
   return n;
+}
+
+function parseOptionalNonNegInt(raw, fieldName) {
+  const s = String(raw ?? "").trim();
+  if (s === "") return null;
+  if (!/^(0|[1-9]\d*)$/.test(s)) {
+    throw new Error(`"${fieldName}" must be an integer (0 or higher).`);
+  }
+  const n = Number(s);
+  if (!Number.isSafeInteger(n) || n < 0) {
+    throw new Error(`"${fieldName}" must be an integer (0 or higher).`);
+  }
+  return n;
+}
+
+function parseOptionalPositiveNumber(raw, fieldName) {
+  const s = String(raw ?? "").trim();
+  if (s === "") return null;
+  const n = Number(s);
+  if (!Number.isFinite(n) || n <= 0) {
+    throw new Error(`"${fieldName}" must be a positive number.`);
+  }
+  return n;
+}
+
+function applyAdvancedOverrides(setObj) {
+  const base = setObj.totalDistinct ?? {};
+  const totals = {
+    common: Number(base.common ?? 0),
+    uncommon: Number(base.uncommon ?? 0),
+    rare: Number(base.rare ?? 0),
+    mythic: Number(base.mythic ?? 0),
+  };
+
+  const oC = parseOptionalNonNegInt(els.overrideC?.value, "Override C");
+  const oU = parseOptionalNonNegInt(els.overrideU?.value, "Override U");
+  const oR = parseOptionalNonNegInt(els.overrideR?.value, "Override R");
+  const oM = parseOptionalNonNegInt(els.overrideM?.value, "Override M");
+  const oA = parseOptionalPositiveNumber(els.overrideAlpha?.value, "Override alpha (α)");
+
+  let overridesApplied = false;
+
+  if (oC !== null) { totals.common = oC; overridesApplied = true; }
+  if (oU !== null) { totals.uncommon = oU; overridesApplied = true; }
+  if (oR !== null) { totals.rare = oR; overridesApplied = true; }
+  if (oM !== null) { totals.mythic = oM; overridesApplied = true; }
+
+  const alpha = (oA !== null) ? oA : Number(setObj.alpha);
+  if (oA !== null) overridesApplied = true;
+
+  // Return a “patched” set object that computeStrategy/renderResult can use
+  return {
+    ...setObj,
+    alpha,
+    totalDistinct: totals,
+    _overridesApplied: overridesApplied,
+  };
 }
 
 function averageCollected(t, n, N, c) {
@@ -327,7 +391,7 @@ async function init() {
 
     try {
       const idx = Number(els.setSelect.value);
-      const setObj = sets[idx];
+      const setObj = applyAdvancedOverrides(sets[idx]);
 
       const owned = {
         common: parseNonNegIntOrZero(els.ownedCommon.value, "Owned Commons"),
@@ -343,6 +407,41 @@ async function init() {
       els.err.textContent = e?.message ? String(e.message) : String(e);
     }
   });
+
+  // Pressing Enter in any input runs the calculation
+  const enterTargets = [
+    els.ownedCommon,
+    els.ownedUncommon,
+    els.ownedRare,
+    els.ownedMythic,
+    els.overrideC,
+    els.overrideU,
+    els.overrideR,
+    els.overrideM,
+    els.overrideAlpha,
+  ].filter(Boolean);
+
+  for (const el of enterTargets) {
+    el.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        els.runBtn.click();
+      }
+    });
+  }
+
+  if (els.advResetBtn) {
+    els.advResetBtn.addEventListener("click", () => {
+      els.overrideC.value = "";
+      els.overrideU.value = "";
+      els.overrideR.value = "";
+      els.overrideM.value = "";
+      els.overrideAlpha.value = "";
+      // keep the panel open; close it if you prefer:
+      // if (els.advDetails) els.advDetails.open = false;
+    });
+  }
+
 }
 
 init().catch((e) => {

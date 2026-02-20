@@ -29,7 +29,7 @@
         </div>
         <div>
           <label>&nbsp;</label>
-          <button id="runBtn">Run calculation</button>
+          <button id="runBtn" class="btn-primary">Run calculation</button>
           <small class="muted">Outputs appear below.</small>
         </div>
 
@@ -48,6 +48,61 @@
         <div>
           <label for="ownedMythic">Owned Mythics (distinct)</label>
           <input id="ownedMythic" inputmode="numeric" placeholder="0" />
+        </div>
+        <div style="grid-column: 1 / -1;">
+          <details id="advDetails">
+            <summary
+              style="
+                list-style: none;
+                cursor: pointer;
+                padding: 10px 12px;
+                border-radius: 10px;
+                border: 1px solid var(--border);
+                background: #0f1520;
+                color: var(--text);
+                user-select: none;
+                display: inline-flex;
+                width: fit-content;
+                align-items: center;
+                gap: 8px;
+              "
+            >
+              Overrides
+              <span class="muted" style="margin-left: 8px;">(optional)</span>
+              <span aria-hidden="true" class="adv-chevron">▾</span>
+            </summary>
+
+            <div style="margin-top: 10px;">
+              <small class="muted">Leave blank to use the selected set’s defaults.</small>
+
+              <div class="grid" style="margin-top: 10px;">
+                <div>
+                  <label for="overrideC">Override total Commons (C)</label>
+                  <input id="overrideC" inputmode="numeric" placeholder="(use set default)" />
+                </div>
+                <div>
+                  <label for="overrideU">Override total Uncommons (U)</label>
+                  <input id="overrideU" inputmode="numeric" placeholder="(use set default)" />
+                </div>
+                <div>
+                  <label for="overrideR">Override total Rares (R)</label>
+                  <input id="overrideR" inputmode="numeric" placeholder="(use set default)" />
+                </div>
+                <div>
+                  <label for="overrideM">Override total Mythics (M)</label>
+                  <input id="overrideM" inputmode="numeric" placeholder="(use set default)" />
+                </div>
+                <div style="grid-column: 1 / -1;">
+                  <label for="overrideAlpha">Override Rare:Mythic ratio (R:M)</label>
+                  <input id="overrideAlpha" inputmode="decimal" placeholder="(use set default)" />
+                </div>
+              </div>
+
+              <div style="margin-top: 10px;">
+                <button type="button" id="advResetBtn" class="btn-secondary">Reset overrides</button>
+              </div>
+            </div>
+          </details>
         </div>
       </div>
       <p id="err" class="error"></p>

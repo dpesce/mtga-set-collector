@@ -1,12 +1,5 @@
 [
   {
-    "code": "AECL",
-    "name": "Alchemy: Lorwyn",
-    "totalDistinct": { "common": 0, "uncommon": 10, "rare": 15, "mythic": 5 },
-    "alpha": 7,
-    "notes": ""
-  },
-  {
     "code": "ECL",
     "name": "Lorwyn Eclipsed",
     "totalDistinct": { "common": 81, "uncommon": 100, "rare": 65, "mythic": 22 },
@@ -16,7 +9,7 @@
   {
     "code": "TLA",
     "name": "Avatar: The Last Airbender",
-    "totalDistinct": { "common": 324, "uncommon": 110, "rare": 60, "mythic": 20 },
+    "totalDistinct": { "common": 81, "uncommon": 110, "rare": 60, "mythic": 20 },
     "alpha": 7,
     "notes": ""
   },

@@ -92,15 +92,44 @@ input, select, button{
   font-size:14px;
 }
 
+/* Buttons */
 button{
-  background: #0f253a;
-  border-color: #234a6b;
   cursor:pointer;
   font-weight:600;
 }
-button:hover{
+
+/* Primary CTA (Run calculation) */
+.btn-primary{
+  background: #2F7FD6;
+  border: 1px solid #2F7FD6;
+  color: var(--text);                 /* light text */
+  box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+}
+.btn-primary:hover{
+  filter: brightness(1.06);
+}
+.btn-primary:active{
+  transform: translateY(1px);
+}
+.btn-primary:focus-visible{
+  outline: 2px solid rgba(47,127,214,0.55);
+  outline-offset: 2px;
+}
+
+/* Secondary (optional) */
+.btn-secondary{
+  background: #0f253a;
+  border: 1px solid #234a6b;
+  color: var(--text);
+}
+.btn-secondary:hover{
   filter: brightness(1.08);
 }
+.btn-secondary:focus-visible{
+  outline: 2px solid rgba(124,196,255,0.35);
+  outline-offset: 2px;
+}
+
 
 .error{
   color: #ff9aa2;
@@ -262,4 +291,19 @@ button:hover{
 .table th{
   color: var(--muted);
   font-weight: 600;
+}
+
+/* Rotate chevron when details is open */
+.adv-chevron{
+  margin-left: 12px;
+  display: inline-block;
+  line-height: 1;
+  transform: scale(1.6) rotate(0deg);
+  transform-origin: center;
+  transition: transform 120ms ease;
+  opacity: 0.9;
+}
+
+details[open] .adv-chevron{
+  transform: scale(1.6) rotate(180deg);
 }
