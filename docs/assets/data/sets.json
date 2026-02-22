@@ -12,16 +12,32 @@
     "name": "Avatar: The Last Airbender",
     "totalDistinct": { "common": 81, "uncommon": 110, "rare": 60, "mythic": 20 },
     "alpha": 7,
-    "overrides": { },
+    "overrides": { "nC": 4.6266666667 },
     "notes": ""
+  },
+  {
+    "code": "TLE",
+    "name": "Avatar: The Last Airbender Extra",
+    "totalDistinct": { "common": 53, "uncommon": 46, "rare": 66, "mythic": 72 },
+    "alpha": 7,
+    "overrides": { "nC": 0.0304347826, "nU": 0.00608695652, "nR": 0.00304347826, "nM": 0.0004347826 },
+    "notes": "Note: at most one Avatar: The Last Airbender Extra card is obtained per Avatar: The Last Airbender pack"
   },
   {
     "code": "SPM",
     "name": "Through the Omenpaths",
     "totalDistinct": { "common": 80, "uncommon": 55, "rare": 53, "mythic": 20 },
     "alpha": 8.1,
-    "overrides": { },
+    "overrides": { "nC": 4.65104167 },
     "notes": ""
+  },
+  {
+    "code": "OMB",
+    "name": "Omenpaths Bonus Sheet",
+    "totalDistinct": { "common": 5, "uncommon": 7, "rare": 18, "mythic": 10 },
+    "alpha": 8.1,
+    "overrides": { "nC": 0.011888587, "nU": 0.0023777174, "nR": 0.0011888587, "nM": 0.000169837 },
+    "notes": "Note: at most one Omenpaths Bonus Sheet card is obtained per Through the Omenpaths pack"
   },
   {
     "code": "EOE",
