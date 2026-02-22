@@ -44,7 +44,7 @@
     "name": "Tarkir: Dragonstorm",
     "totalDistinct": { "common": 81, "uncommon": 100, "rare": 60, "mythic": 20 },
     "alpha": 7,
-    "overrides": { },
+    "overrides": { "nC": 4.65 },
     "notes": ""
   },
   {
@@ -52,7 +52,7 @@
     "name": "Aetherdrift",
     "totalDistinct": { "common": 81, "uncommon": 100, "rare": 60, "mythic": 20 },
     "alpha": 7,
-    "overrides": { "nc": 4.6510416667 },
+    "overrides": { "nC": 4.6510416667 },
     "notes": ""
   },
   {
