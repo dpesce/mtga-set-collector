@@ -37,7 +37,6 @@
     <div class="card">
       <h2>Preliminaries</h2>
 
-      <!-- <p>The main question we would like to answer is: how many distinct cards can we expect to have collected after opening some number of booster packs?</p> -->
       <p>Suppose the set we would like to collect contains $N$ cards, and an individual pack contains $n \leq N$ cards.  There are a few related, but distinct, questions that we would like to answer:</p>
 
       <ul>
@@ -123,9 +122,6 @@
 
       <p>This expression represents a generalization of the well-known <a href="https://en.wikipedia.org/wiki/Coupon_collector%27s_problem">coupon collector's problem</a>, which our result reduces to for the case of $n=1$.  An interactive plot of $F_t(n,N)$ is shown below.</p>
 
-      <!-- <p class="muted">
-        If you want faster rendering and can live with partial LaTeX support, KaTeX is another option.
-      </p> -->
     </div>
 
     <div class="card math-widget">
@@ -191,7 +187,7 @@
         </table>
       </div>
 
-      <p>So for $N=100$ and $n=8$, the median number of packs required to collect all cards is ${\sim}60$, and there is a 99% chance of having collected all cards by the time ${\sim}110$ packs have been opened.</p>
+      <p>So for $N=100$ and $n=8$, the median number of packs required to collect all cards is ${\sim}60$, but there is a 1% chance to have collected all cards after opening only ${\sim}38$ packs and a 1% chance that collecting all cards will require opening ${\sim}110$ packs.</p>
 
       <p>However, what if we are interested in the average number of packs?  $F_t(n,N)$ itself is not as directly useful in this case, but we can still use it to derive the relevant expression.  The key is to determine the probability distribution function (PDF) associated with the CDF described by $F_t(n,N)$.  For continuous distributions, the PDF is given by the derivative of the CDF; for discrete distributions, we instead use a finite difference,</p>
 
@@ -213,7 +209,7 @@
         \end{align}
       $$</p>
 
-      <p>Computing the average for the same couple of examples as used in the table above, we find $\mathbb{E}[t] \approx 63$ for $(N=100$, $n=8)$ and $\mathbb{E}[t] \approx 99.3$ for $(N=250$, $n=15)$.  So we see that the average number of packs required to collect all cards is a fair bit larger than the median value, reflecting the asymmetry in $P_t(n,N)$ that can be seen in the plot above (i.e., it has a heavier tail on the large-$t$ side).</p>
+      <p>Computing the average for the same couple of examples as used in the table above, we find $\mathbb{E}[t] \approx 63$ for $(N=100$, $n=8)$ and $\mathbb{E}[t] \approx 99.3$ for $(N=250$, $n=15)$.  So we see that the average number of packs required to collect all cards is somewhat larger than the median value, reflecting the asymmetry in $P_t(n,N)$ that can be seen in the plot above (i.e., it has a heavier tail on the large-$t$ side).</p>
 
     </div>
 
@@ -303,56 +299,8 @@
         <li>The expected number of non-wildcard Mythics in each pack is $n_M = \frac{1}{\alpha} \left( 1 - \frac{1}{30} \right)$.</li>
       </ul>
 
-      <p>The above drop rates are the defaults, but many sets contain some modifications to these default rates; these modifications are detailed below.</p>
+      <p>The above drop rates are the defaults, but many sets contain some modifications to these default rates; these modifications are detailed in the "Modified drop rates" section below.</p>
 
-      <h3><i>Strixhaven</i></h3>
-
-      <p>Each <i>Strixhaven: School of Mages</i> booster pack contains only 4 Commons, with one Common instead replaced by a random <i>Strixhaven Mystical Archive</i> card.  The drop rates for non-wildcard Commons is thus adjusted to be $n_C = \frac{11}{3}$ for <i>Strixhaven: School of Mages</i>.</p>
-
-      <p>For the <i>Strixhaven Mystical Archive</i> set, we refer to <a href="https://magic.wizards.com/en/news/feature/collecting-strixhaven-school-mages-2021-03-25">this page</a> on the website.  There are 63 cards in total: 0 Commons, 18 Uncommons, 30 Rares, and 15 Mythics.  Only one card is opened per pack, and it has a 67% chance of being an Uncommon, a 26.4% chance of being a Rare, and a 6.6% chance of being a Mythic.  The per-pack drop rates for this set are thus modified to be:</p>
-
-      <ul>
-        <li>The expected number of non-wildcard Commons in each pack is $n_C = 0$.</li>
-        <li>The expected number of non-wildcard Uncommons in each pack is $n_U = 0.67$.</li>
-        <li>The expected number of non-wildcard Rares in each pack is $n_R = 0.264$.</li>
-        <li>The expected number of non-wildcard Mythics in each pack is $n_M = 0.066$.</li>
-      </ul>
-
-      <h3><i>The Brothers’ War</i></h3>
-
-      <p>Each <i>The Brothers’ War</i> booster pack contains only 4 Commons, with one Common instead replaced by a random <i>Retro Frame</i> artifact card.  The drop rates for non-wildcard Commons is thus adjusted to be $n_C = \frac{11}{3}$ for <i>The Brothers’ War</i>.</p>
-
-      <p>For the <i>Retro Frame</i> set, we refer to <a href="https://magic.wizards.com/en/news/feature/whats-inside-the-brothers-war-boosters">this page</a> on the website.  There are 63 cards in total: 0 Commons, 18 Uncommons, 30 Rares, and 15 Mythics.  Only one card is opened per pack, and it has a 66% chance of being an Uncommon, a 27% chance of being a Rare, and a 7% chance of being a Mythic.  The per-pack drop rates for this set are thus modified to be:</p>
-
-      <ul>
-        <li>The expected number of non-wildcard Commons in each pack is $n_C = 0$.</li>
-        <li>The expected number of non-wildcard Uncommons in each pack is $n_U = 0.66$.</li>
-        <li>The expected number of non-wildcard Rares in each pack is $n_R = 0.27$.</li>
-        <li>The expected number of non-wildcard Mythics in each pack is $n_M = 0.07$.</li>
-      </ul>
-
-      <!-- <h3><i>Phyrexia</i></h3>
-
-      <p>The Rare slot of each <i>Phyrexia: All Will Be One</i> limited booster pack has a 1:60 chance of being replaced by one of four Praetor cards (<a href="https://scryfall.com/card/dmu/107/sheoldred-the-apocalypse">Sheoldred, the Apocalypse</a>, <a href="https://scryfall.com/card/khm/199/vorinclex-monstrous-raider">Vorinclex, Monstrous Raider</a>, <a href="https://scryfall.com/card/snc/129/urabrask-heretic-praetor">Urabrask, Heretic Praetor</a>, or <a href="https://scryfall.com/card/neo/59/jin-gitaxias-progress-tyrant">Jin-Gitaxias, Progress Tyrant</a>).  The drop rates for non-wildcard Rares and Mythics are thus modified to be:</p>
-
-      <ul>
-        <li>The expected number of non-wildcard Rares in each pack is $n_R = \frac{59}{60} \left( 1 - \frac{1}{\alpha} \right) \left( 1 - \frac{1}{30} \right)$.</li>
-        <li>The expected number of non-wildcard Mythics in each pack is $n_M = \frac{59}{60 \alpha} \left( 1 - \frac{1}{30} \right)$.</li>
-      </ul> -->
-
-      <h3><i>Innistrad</i></h3>
-
-      <p>Each <i>Shadows over Innistrad: Remastered</i> booster pack contains only 4 Commons, with one Common instead replaced by a random <i>Shadows of the Past</i> card.  The drop rates for non-wildcard Commons is thus adjusted to be $n_C = \frac{11}{3}$ for <i>Shadows over Innistrad: Remastered</i>.</p>
-
-      <p>For the <i>Shadows of the Past</i> set, we refer to <a href="https://magic.wizards.com/en/mtgarena/drop-rates">this page</a> on the website.  There are 76 cards in total: 28 Commons, 24 Uncommons, 12 Rares, and 12 Mythics.  Only one card is opened per pack, and it has a 30:63 chance of being a Common, a 30:63 chance of being an Uncommon, a 2:63 chance of being a Rare, and a 1:63 chance of being a Mythic.  The per-pack drop rates for this set are thus modified to be:</p>
-
-      <ul>
-        <li>The expected number of non-wildcard Commons in each pack is $n_C = \frac{30}{63}$.</li>
-        <li>The expected number of non-wildcard Uncommons in each pack is $n_U = \frac{30}{63}$.</li>
-        <li>The expected number of non-wildcard Rares in each pack is $n_R = \frac{2}{63}$.</li>
-        <li>The expected number of non-wildcard Mythics in each pack is $n_M = \frac{1}{63}$.</li>
-      </ul>
-      
     </div>
 
     <div class="card">
@@ -378,11 +326,116 @@
 
       <p>The calculator starts by computing $\mathbb{E}[X_t]$ for a range of values of $t$.  This calculation is carried out separately for each rarity, resulting in an estimate for the expected number of Commons ($C_t$), Uncommons ($U_t$), Rares ($R_t$), and Mythics ($M_t$) owned as a function of the number of packs opened.  The cost function $J_t$ is then computed assuming that the remaining cards in the set must be crafted from wildcards, resulting in a total cost of</p>
 
-      <p>$$J_t = t + (N_C - C_t) v_C + (N_U - U_t) v_U + (N_R - R_t) v_R + (N_M - M_t) v_M ,$$</p>
+      <p>$$J_t = t + (N_C - \mathbb{E}[C_t]) v_C + (N_U - \mathbb{E}[U_t]) v_U + (N_R - \mathbb{E}[R_t]) v_R + (N_M - \mathbb{E}[M_t]) v_M ,$$</p>
 
-      <p>where $N_C$, $N_U$, $N_R$, and $N_M$ are the total number of Commons, Uncommons, Rares, and Mythics in the set, respectively.</p>
+      <p>where $N_C$, $N_U$, $N_R$, and $N_M$ are the total number of Commons, Uncommons, Rares, and Mythics in the set, respectively.  Note that to compute $\mathbb{E}[X_t]$ with noninteger $n$, the calculator uses <a href="https://en.wikipedia.org/wiki/Gamma_function">the Gamma function</a> to analytically continue the factorial function -- i.e., $\Gamma(x) = (x - 1)!$ -- for, e.g., computing binomial coefficients.</p>
 
       <p>The recommendation provided by the calculator depends on $t_{\text{min}}$, the value of $t$ that minimizes $J_t$.  If $t_{\text{min}} > 0$, then the calculator recommends opening $t_{\text{min}}$ packs prior to using any wildcards.  Otherwise, the calculator recommends just skipping straight to wildcards.</p>
+
+    </div>
+
+    <div class="card">
+
+      <h2>Modified drop rates</h2>
+
+      <p>A number of the sets inject some modifications into what kinds of cards can appear in booster packs, typically to provide space for players to collect cards from an associated bonus sheet.  These modifications are largely detailed on <a href="https://magic.wizards.com/en/mtgarena/drop-rates">this page</a>, and we describe below how they impact the drop rates for the affected sets.</p>
+
+      <h3><i>Strixhaven: School of Mages</i></h3>
+
+      <p>Each <i>Strixhaven: School of Mages</i> booster pack contains only 4 Commons, with one Common instead replaced by a random <i>Strixhaven Mystical Archive</i> card.  The drop rate for non-wildcard Commons is thus adjusted to be $n_C = \frac{11}{3}$ for <i>Strixhaven: School of Mages</i>.</p>
+
+      <p>For the <i>Strixhaven Mystical Archive</i> set, we refer to <a href="https://magic.wizards.com/en/news/feature/collecting-strixhaven-school-mages-2021-03-25">this page</a> on the website.  There are 63 cards in total: 0 Commons, 18 Uncommons, 30 Rares, and 15 Mythics.  Only one card is opened per pack, and it has a 67% chance of being an Uncommon, a 26.4% chance of being a Rare, and a 6.6% chance of being a Mythic.  The per-pack drop rates for this set are thus modified to be:</p>
+
+      <ul>
+        <li>The expected number of non-wildcard Commons in each pack is $n_C = 0$.</li>
+        <li>The expected number of non-wildcard Uncommons in each pack is $n_U = 0.67$.</li>
+        <li>The expected number of non-wildcard Rares in each pack is $n_R = 0.264$.</li>
+        <li>The expected number of non-wildcard Mythics in each pack is $n_M = 0.066$.</li>
+      </ul>
+
+      <h3><i>The Brothers’ War</i></h3>
+
+      <p>Each <i>The Brothers’ War</i> booster pack contains only 4 Commons, with one Common instead replaced by a random <i>Retro Frame</i> artifact card.  The drop rate for non-wildcard Commons is thus adjusted to be $n_C = \frac{11}{3}$ for <i>The Brothers’ War</i>.</p>
+
+      <p>For the <i>Retro Frame</i> set, we refer to <a href="https://magic.wizards.com/en/news/feature/whats-inside-the-brothers-war-boosters">this page</a> on the website.  There are 63 cards in total: 0 Commons, 18 Uncommons, 30 Rares, and 15 Mythics.  Only one card is opened per pack, and it has a 66% chance of being an Uncommon, a 27% chance of being a Rare, and a 7% chance of being a Mythic.  The per-pack drop rates for this set are thus modified to be:</p>
+
+      <ul>
+        <li>The expected number of non-wildcard Commons in each pack is $n_C = 0$.</li>
+        <li>The expected number of non-wildcard Uncommons in each pack is $n_U = 0.66$.</li>
+        <li>The expected number of non-wildcard Rares in each pack is $n_R = 0.27$.</li>
+        <li>The expected number of non-wildcard Mythics in each pack is $n_M = 0.07$.</li>
+      </ul>
+
+      <!-- <h3><i>Phyrexia</i></h3>
+
+      <p>The Rare slot of each <i>Phyrexia: All Will Be One</i> limited booster pack has a 1:60 chance of being replaced by one of four Praetor cards (<a href="https://scryfall.com/card/dmu/107/sheoldred-the-apocalypse">Sheoldred, the Apocalypse</a>, <a href="https://scryfall.com/card/khm/199/vorinclex-monstrous-raider">Vorinclex, Monstrous Raider</a>, <a href="https://scryfall.com/card/snc/129/urabrask-heretic-praetor">Urabrask, Heretic Praetor</a>, or <a href="https://scryfall.com/card/neo/59/jin-gitaxias-progress-tyrant">Jin-Gitaxias, Progress Tyrant</a>).  The drop rates for non-wildcard Rares and Mythics are thus modified to be:</p>
+
+      <ul>
+        <li>The expected number of non-wildcard Rares in each pack is $n_R = \frac{59}{60} \left( 1 - \frac{1}{\alpha} \right) \left( 1 - \frac{1}{30} \right)$.</li>
+        <li>The expected number of non-wildcard Mythics in each pack is $n_M = \frac{59}{60 \alpha} \left( 1 - \frac{1}{30} \right)$.</li>
+      </ul> -->
+
+      <h3><i>Shadows over Innistrad: Remastered</i></h3>
+
+      <p>Each <i>Shadows over Innistrad: Remastered</i> booster pack contains only 4 Commons, with one Common instead replaced by a random <i>Shadows of the Past</i> card.  The drop rate for non-wildcard Commons is thus adjusted to be $n_C = \frac{11}{3}$ for <i>Shadows over Innistrad: Remastered</i>.</p>
+
+      <p>For the <i>Shadows of the Past</i> set, we refer to <a href="https://magic.wizards.com/en/mtgarena/drop-rates">this page</a> on the website.  There are 76 cards in total: 28 Commons, 24 Uncommons, 12 Rares, and 12 Mythics.  Only one card is opened per pack, and it has a 30:63 chance of being a Common, a 30:63 chance of being an Uncommon, a 2:63 chance of being a Rare, and a 1:63 chance of being a Mythic.  The per-pack drop rates for this set are thus modified to be:</p>
+
+      <ul>
+        <li>The expected number of non-wildcard Commons in each pack is $n_C = \frac{30}{63}$.</li>
+        <li>The expected number of non-wildcard Uncommons in each pack is $n_U = \frac{30}{63}$.</li>
+        <li>The expected number of non-wildcard Rares in each pack is $n_R = \frac{2}{63}$.</li>
+        <li>The expected number of non-wildcard Mythics in each pack is $n_M = \frac{1}{63}$.</li>
+      </ul>
+
+      <h3><i>Wilds of Eldraine</i></h3>
+
+      <p>Each <i>Wilds of Eldraine</i> booster pack contains only 4 Commons, with one Common instead replaced by a random <i>Enchanting Tales</i> card.  The drop rate for non-wildcard Commons is thus adjusted to be $n_C = \frac{11}{3}$ for <i>Wilds of Eldraine</i>.</p>
+
+      <p>For the <i>Enchanting Tales</i> set, we refer to <a href="https://magic.wizards.com/en/news/mtg-arena/mtg-arena-release-notes-wilds-of-eldraine">this page</a> and <a href="https://magic.wizards.com/en/mtgarena/drop-rates">this page</a> on the website.  There are 63 cards in total: 0 Commons, 18 Uncommons, 30 Rares, and 15 Mythics.  Only one card is opened per pack, and it has a 66% chance of being an Uncommon, a 27% chance of being a Rare, and a 7% chance of being a Mythic.  The per-pack drop rates for this set are thus modified to be:</p>
+
+      <ul>
+        <li>The expected number of non-wildcard Commons in each pack is $n_C = 0$.</li>
+        <li>The expected number of non-wildcard Uncommons in each pack is $n_U = 0.66$.</li>
+        <li>The expected number of non-wildcard Rares in each pack is $n_R = 0.27$.</li>
+        <li>The expected number of non-wildcard Mythics in each pack is $n_M = 0.07$.</li>
+      </ul>
+
+      <h3><i>Outlaws of Thunder Junction</i></h3>
+
+      <p>Each <i>Outlaws of Thunder Junction</i> booster pack contains only 4 Commons, with one Common instead replaced by a random <i>Breaking News</i> card.  The drop rate for non-wildcard Commons is thus adjusted to be $n_C = \frac{11}{3}$ for <i>Outlaws of Thunder Junction</i>.  Additionally, one in every five Mythics from an <i>Outlaws of Thunder Junction</i> pack has a chance to be replaced by a Mythic from <i>The Big Score</i>.  The drop rate for non-wildcard Mythics is thus adjusted to be $n_M = \frac{4}{5\alpha} \left( 1 - \frac{1}{30} \right)$ for <i>Outlaws of Thunder Junction</i>.</p>
+
+      <p>For the <i>Breaking News</i> set, we refer to <a href="https://magic.wizards.com/en/news/feature/collecting-outlaws-of-thunder-junction">this page</a> and <a href="https://magic.wizards.com/en/mtgarena/drop-rates">this page</a> on the website.  There are 65 cards in total: 0 Commons, 20 Uncommons, 30 Rares, and 15 Mythics.  Only one card is opened per pack, and it has a 66% chance of being an Uncommon, a 27% chance of being a Rare, and a 7% chance of being a Mythic.  The per-pack drop rates for this set are thus modified to be:</p>
+
+      <ul>
+        <li>The expected number of non-wildcard Commons in each pack is $n_C = 0$.</li>
+        <li>The expected number of non-wildcard Uncommons in each pack is $n_U = 0.66$.</li>
+        <li>The expected number of non-wildcard Rares in each pack is $n_R = 0.27$.</li>
+        <li>The expected number of non-wildcard Mythics in each pack is $n_M = 0.07$.</li>
+      </ul>
+
+      <p>For the <i>The Big Score</i> set, we refer to <a href="https://magic.wizards.com/en/news/feature/collecting-outlaws-of-thunder-junction">this page</a> and <a href="https://magic.wizards.com/en/mtgarena/drop-rates">this page</a> on the website.  There are 30 cards in total, all Mythics.  Only up to one card is opened per pack, at a rate that is 20% that of the normal Mythic drop rate.  The per-pack drop rates for this set are thus modified to be:</p>
+
+      <ul>
+        <li>The expected number of non-wildcard Commons in each pack is $n_C = 0$.</li>
+        <li>The expected number of non-wildcard Uncommons in each pack is $n_U = 0$.</li>
+        <li>The expected number of non-wildcard Rares in each pack is $n_R = 0$.</li>
+        <li>The expected number of non-wildcard Mythics in each pack is $n_M = \frac{1}{5\alpha} \left( 1 - \frac{1}{30} \right)$.</li>
+      </ul>
+
+      <h3><i>Modern Horizons 3</i></h3>
+
+      <p>Each <i>Modern Horizons 3</i> booster pack contains only 4 Commons, with one Common instead replaced by a random "new-to-Modern" card.  These cards are actually still members of the <i>Modern Horizons 3</i> set, and there are 42 of them: 20 Uncommons, 18 Rares, and 4 Mythics, dropping at relative rates of $\frac{40}{51}$, $\frac{10}{51}$, and $\frac{1}{51}$, respectively.  Additionally, one Common in each <i>Modern Horizons 3</i> pack has a 1:64 chance of being replaced by a card from the "Special Guest" list.  The per-pack drop rates for <i>Modern Horizons 3</i> are thus modified to be:</p>
+
+      <ul>
+        <li>The expected number of non-wildcard Commons in each pack is $n_C = \left( \frac{11}{3} \right) \left( \frac{63}{64} \right) = \frac{231}{64}$.</li>
+        <li>The expected number of non-wildcard Uncommons in each pack is $n_U = \frac{9}{5} + \frac{40}{51} = \frac{659}{255}$.</li>
+        <li>The expected number of non-wildcard Rares in each pack is $n_R = \left( 1 - \frac{1}{\alpha} \right) \left( 1 - \frac{1}{30} \right) + \frac{10}{51}$.</li>
+        <li>The expected number of non-wildcard Mythics in each pack is $n_M = \frac{1}{\alpha} \left( 1 - \frac{1}{30} \right) + \frac{1}{51}$.</li>
+      </ul>
+
+
+
 
     </div>
 
