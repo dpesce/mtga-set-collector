@@ -4,6 +4,7 @@
     "name": "Lorwyn Eclipsed",
     "totalDistinct": { "common": 81, "uncommon": 100, "rare": 65, "mythic": 22 },
     "alpha": 7,
+    "overrides": { },
     "notes": ""
   },
   {
@@ -11,6 +12,7 @@
     "name": "Avatar: The Last Airbender",
     "totalDistinct": { "common": 81, "uncommon": 110, "rare": 60, "mythic": 20 },
     "alpha": 7,
+    "overrides": { },
     "notes": ""
   },
   {
@@ -18,6 +20,7 @@
     "name": "Through the Omenpaths",
     "totalDistinct": { "common": 80, "uncommon": 55, "rare": 53, "mythic": 20 },
     "alpha": 8.1,
+    "overrides": { },
     "notes": ""
   },
   {
@@ -25,6 +28,7 @@
     "name": "Edge of Eternities",
     "totalDistinct": { "common": 81, "uncommon": 100, "rare": 60, "mythic": 20 },
     "alpha": 7,
+    "overrides": { },
     "notes": ""
   },
   {
@@ -32,6 +36,7 @@
     "name": "FINAL FANTASY",
     "totalDistinct": { "common": 80, "uncommon": 109, "rare": 74, "mythic": 20 },
     "alpha": 8.4,
+    "overrides": { },
     "notes": ""
   },
   {
@@ -39,6 +44,7 @@
     "name": "Tarkir: Dragonstorm",
     "totalDistinct": { "common": 81, "uncommon": 100, "rare": 60, "mythic": 20 },
     "alpha": 7,
+    "overrides": { },
     "notes": ""
   },
   {
@@ -46,13 +52,15 @@
     "name": "Aetherdrift",
     "totalDistinct": { "common": 81, "uncommon": 100, "rare": 60, "mythic": 20 },
     "alpha": 7,
+    "overrides": { },
     "notes": ""
   },
   {
     "code": "PIO",
     "name": "Pioneer Masters",
     "totalDistinct": { "common": 96, "uncommon": 160, "rare": 70, "mythic": 62 },
-    "alpha": 7,
+    "alpha": 5,
+    "overrides": { },
     "notes": ""
   },
   {
@@ -60,6 +68,7 @@
     "name": "Magic: The Gathering Foundations",
     "totalDistinct": { "common": 80, "uncommon": 101, "rare": 60, "mythic": 20 },
     "alpha": 7,
+    "overrides": { },
     "notes": ""
   },
   {
@@ -67,6 +76,7 @@
     "name": "Duskmourn: House of Horror",
     "totalDistinct": { "common": 81, "uncommon": 100, "rare": 60, "mythic": 20 },
     "alpha": 7,
+    "overrides": { },
     "notes": ""
   },
   {
@@ -74,6 +84,7 @@
     "name": "Bloomburrow",
     "totalDistinct": { "common": 81, "uncommon": 100, "rare": 60, "mythic": 20 },
     "alpha": 7,
+    "overrides": { },
     "notes": ""
   },
   {
@@ -81,6 +92,7 @@
     "name": "Modern Horizons 3",
     "totalDistinct": { "common": 80, "uncommon": 120, "rare": 78, "mythic": 24 },
     "alpha": 7,
+    "overrides": { },
     "notes": ""
   },
   {
@@ -88,6 +100,7 @@
     "name": "Outlaws of Thunder Junction",
     "totalDistinct": { "common": 81, "uncommon": 100, "rare": 60, "mythic": 20 },
     "alpha": 7,
+    "overrides": { },
     "notes": ""
   },
   {
@@ -95,6 +108,7 @@
     "name": "Murders at Karlov Manor",
     "totalDistinct": { "common": 81, "uncommon": 100, "rare": 70, "mythic": 20 },
     "alpha": 8,
+    "overrides": { },
     "notes": ""
   },
   {
@@ -102,6 +116,7 @@
     "name": "Khans of Tarkir",
     "totalDistinct": { "common": 101, "uncommon": 80, "rare": 53, "mythic": 15 },
     "alpha": 8,
+    "overrides": { },
     "notes": ""
   },
   {
@@ -109,6 +124,7 @@
     "name": "The Lost Caverns of Ixalan",
     "totalDistinct": { "common": 101, "uncommon": 92, "rare": 64, "mythic": 22 },
     "alpha": 6.8,
+    "overrides": { },
     "notes": ""
   },
   {
@@ -116,6 +132,7 @@
     "name": "Wilds of Eldraine",
     "totalDistinct": { "common": 101, "uncommon": 80, "rare": 60, "mythic": 20 },
     "alpha": 7,
+    "overrides": { },
     "notes": ""
   },
   {
@@ -123,6 +140,7 @@
     "name": "The Lord of the Rings: Tales of Middle-earth",
     "totalDistinct": { "common": 101, "uncommon": 80, "rare": 60, "mythic": 20 },
     "alpha": 7,
+    "overrides": { },
     "notes": ""
   },
   {
@@ -130,6 +148,7 @@
     "name": "March of the Machine: The Aftermath",
     "totalDistinct": { "common": 0, "uncommon": 15, "rare": 25, "mythic": 10 },
     "alpha": 6,
+    "overrides": { },
     "notes": ""
   },
   {
@@ -137,6 +156,7 @@
     "name": "March of the Machine",
     "totalDistinct": { "common": 106, "uncommon": 80, "rare": 60, "mythic": 20 },
     "alpha": 7,
+    "overrides": { },
     "notes": ""
   },
   {
@@ -144,27 +164,47 @@
     "name": "Shadows over Innistrad: Remastered",
     "totalDistinct": { "common": 94, "uncommon": 93, "rare": 66, "mythic": 23 },
     "alpha": 6.5,
+    "overrides": { "nC": 3.6666667 },
     "notes": ""
+  },
+  {
+    "code": "SIS",
+    "name": "Shadows of the Past",
+    "totalDistinct": { "common": 28, "uncommon": 24, "rare": 12, "mythic": 12 },
+    "alpha": 6.5,
+    "overrides": { "nC": 0.4761904762, "nU": 0.4761904762, "nR": 0.03174603175, "nM": 0.01587301587 },
+    "notes": "Note: one Shadows of the Past card is obtained per Shadows over Innistrad: Remastered pack"
   },
   {
     "code": "ONE",
     "name": "Phyrexia: All Will Be One",
     "totalDistinct": { "common": 101, "uncommon": 80, "rare": 60, "mythic": 20 },
     "alpha": 7,
+    "overrides": { },
     "notes": ""
   },
   {
     "code": "BRO",
-    "name": "The Brothers' War",
+    "name": "The Brothers’ War",
     "totalDistinct": { "common": 103, "uncommon": 84, "rare": 67, "mythic": 24 },
     "alpha": 5.8,
+    "overrides": { "nC": 3.6666667 },
     "notes": ""
+  },
+  {
+    "code": "BRR",
+    "name": "The Brothers’ War Retro Artifacts",
+    "totalDistinct": { "common": 0, "uncommon": 18, "rare": 30, "mythic": 15 },
+    "alpha": 5.8,
+    "overrides": { "nC": 0, "nU": 0.66, "nR": 0.27, "nM": 0.07 },
+    "notes": "Note: one Retro Artifact card is obtained per The Brothers’ War pack"
   },
   {
     "code": "DMU",
     "name": "Dominaria United",
     "totalDistinct": { "common": 94, "uncommon": 87, "rare": 64, "mythic": 22 },
     "alpha": 7,
+    "overrides": { },
     "notes": ""
   },
   {
@@ -172,6 +212,7 @@
     "name": "Alchemy Horizons: Baldur's Gate",
     "totalDistinct": { "common": 117, "uncommon": 95, "rare": 61, "mythic": 21 },
     "alpha": 7,
+    "overrides": { },
     "notes": ""
   },
   {
@@ -179,6 +220,7 @@
     "name": "Streets of New Capenna",
     "totalDistinct": { "common": 131, "uncommon": 94, "rare": 60, "mythic": 20 },
     "alpha": 7,
+    "overrides": { },
     "notes": ""
   },
   {
@@ -186,6 +228,7 @@
     "name": "Kamigawa: Neon Dynasty",
     "totalDistinct": { "common": 113, "uncommon": 95, "rare": 62, "mythic": 19 },
     "alpha": 8,
+    "overrides": { },
     "notes": ""
   },
   {
@@ -193,6 +236,7 @@
     "name": "Innistrad: Crimson Vow",
     "totalDistinct": { "common": 103, "uncommon": 89, "rare": 66, "mythic": 20 },
     "alpha": 7.4,
+    "overrides": { },
     "notes": ""
   },
   {
@@ -200,6 +244,7 @@
     "name": "Innistrad: Midnight Hunt",
     "totalDistinct": { "common": 103, "uncommon": 85, "rare": 65, "mythic": 21 },
     "alpha": 7.4,
+    "overrides": { },
     "notes": ""
   },
   {
@@ -207,6 +252,7 @@
     "name": "Adventures in the Forgotten Realms",
     "totalDistinct": { "common": 112, "uncommon": 88, "rare": 64, "mythic": 23 },
     "alpha": 7,
+    "overrides": { },
     "notes": ""
   },
   {
@@ -214,13 +260,23 @@
     "name": "Strixhaven: School of Mages",
     "totalDistinct": { "common": 106, "uncommon": 87, "rare": 69, "mythic": 23 },
     "alpha": 8,
+    "overrides": { "nC": 3.6666667 },
     "notes": ""
+  },
+  {
+    "code": "STA",
+    "name": "Strixhaven Mystical Archive",
+    "totalDistinct": { "common": 0, "uncommon": 18, "rare": 30, "mythic": 15 },
+    "alpha": 8,
+    "overrides": { "nC": 0, "nU": 0.67, "nR": 0.264, "nM": 0.066 },
+    "notes": "Note: one Strixhaven Mystical Archive card is obtained per Strixhaven: School of Mages pack"
   },
   {
     "code": "KHM",
     "name": "Kaldheim",
     "totalDistinct": { "common": 102, "uncommon": 88, "rare": 68, "mythic": 23 },
     "alpha": 7.4,
+    "overrides": { },
     "notes": ""
   },
   {
@@ -228,6 +284,7 @@
     "name": "Kaladesh Remastered",
     "totalDistinct": { "common": 104, "uncommon": 97, "rare": 63, "mythic": 22 },
     "alpha": 7,
+    "overrides": { },
     "notes": ""
   },
   {
@@ -235,6 +292,7 @@
     "name": "Zendikar Rising",
     "totalDistinct": { "common": 103, "uncommon": 88, "rare": 68, "mythic": 22 },
     "alpha": 7.4,
+    "overrides": { },
     "notes": ""
   },
   {
@@ -242,6 +300,7 @@
     "name": "Amonkhet Remastered",
     "totalDistinct": { "common": 108, "uncommon": 90, "rare": 74, "mythic": 31 },
     "alpha": 6,
+    "overrides": { },
     "notes": ""
   },
   {
@@ -249,6 +308,7 @@
     "name": "Core Set 2021",
     "totalDistinct": { "common": 111, "uncommon": 80, "rare": 53, "mythic": 15 },
     "alpha": 8,
+    "overrides": { },
     "notes": ""
   },
   {
@@ -256,6 +316,7 @@
     "name": "Ikoria: Lair of Behemoths",
     "totalDistinct": { "common": 111, "uncommon": 80, "rare": 53, "mythic": 16 },
     "alpha": 8,
+    "overrides": { },
     "notes": ""
   },
   {
@@ -263,6 +324,7 @@
     "name": "Theros: Beyond Death",
     "totalDistinct": { "common": 101, "uncommon": 80, "rare": 53, "mythic": 15 },
     "alpha": 8,
+    "overrides": { },
     "notes": ""
   },
   {
@@ -270,6 +332,7 @@
     "name": "Throne of Eldraine",
     "totalDistinct": { "common": 101, "uncommon": 81, "rare": 53, "mythic": 15 },
     "alpha": 8,
+    "overrides": { },
     "notes": ""
   },
   {
@@ -277,6 +340,7 @@
     "name": "Core Set 2020",
     "totalDistinct": { "common": 112, "uncommon": 80, "rare": 53, "mythic": 16 },
     "alpha": 8,
+    "overrides": { },
     "notes": ""
   },
   {
@@ -284,6 +348,7 @@
     "name": "War of the Spark",
     "totalDistinct": { "common": 101, "uncommon": 80, "rare": 54, "mythic": 15 },
     "alpha": 8,
+    "overrides": { },
     "notes": ""
   },
   {
@@ -291,6 +356,7 @@
     "name": "Ravnica Allegiance",
     "totalDistinct": { "common": 111, "uncommon": 80, "rare": 53, "mythic": 15 },
     "alpha": 8,
+    "overrides": { },
     "notes": ""
   },
   {
@@ -298,6 +364,7 @@
     "name": "Guilds of Ravnica",
     "totalDistinct": { "common": 111, "uncommon": 80, "rare": 53, "mythic": 15 },
     "alpha": 8,
+    "overrides": { },
     "notes": ""
   },
   {
@@ -305,13 +372,7 @@
     "name": "Ixalan",
     "totalDistinct": { "common": 101, "uncommon": 80, "rare": 63, "mythic": 15 },
     "alpha": 8,
-    "notes": ""
-  },
-  {
-    "code": "XLN",
-    "name": "Ixalan",
-    "totalDistinct": { "common": 101, "uncommon": 80, "rare": 63, "mythic": 15 },
-    "alpha": 8,
+    "overrides": { },
     "notes": ""
   },
   {
@@ -319,6 +380,7 @@
     "name": "Core Set 2019",
     "totalDistinct": { "common": 111, "uncommon": 80, "rare": 53, "mythic": 16 },
     "alpha": 8,
+    "overrides": { },
     "notes": ""
   },
   {
@@ -326,6 +388,7 @@
     "name": "Dominaria",
     "totalDistinct": { "common": 101, "uncommon": 80, "rare": 53, "mythic": 15 },
     "alpha": 8,
+    "overrides": { },
     "notes": ""
   },
   {
@@ -333,6 +396,7 @@
     "name": "Rivals of Ixalan",
     "totalDistinct": { "common": 70, "uncommon": 60, "rare": 48, "mythic": 13 },
     "alpha": 8,
+    "overrides": { },
     "notes": ""
   }
 ]

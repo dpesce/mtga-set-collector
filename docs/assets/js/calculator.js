@@ -4,7 +4,7 @@
 // Implements the same formulas + minimization over t=0..500.
 
 const SETS_JSON_URL = new URL("../data/sets.json", import.meta.url);
-const T_MAX = 500;
+const T_MAX = 1000;
 
 const els = {
   setSelect: document.getElementById("setSelect"),
@@ -146,7 +146,55 @@ function packParameters(alpha) {
   const vR = 1 / wR;
   const vM = 1 / wM;
 
-  return { nC, nU, nR, nM, vC, vU, vR, vM };
+  return { nC, nU, nR, nM, wC, wU, wR, wM, vC, vU, vR, vM };
+}
+
+function packParametersForSet(setObj) {
+  const alpha = Number(setObj.alpha);
+  if (!Number.isFinite(alpha) || alpha <= 0) {
+    throw new Error('Set "alpha" must be a positive number.');
+  }
+
+  let { nC, nU, nR, nM, wC, wU, wR, wM } = packParameters(alpha);
+
+  const ov = (setObj && typeof setObj.overrides === "object" && setObj.overrides) ? setObj.overrides : {};
+
+  const applyNonNeg = (key, current) => {
+    if (ov[key] == null) return current;
+    const v = Number(ov[key]);
+    if (!Number.isFinite(v) || v < 0) {
+      throw new Error(`Invalid set override "${key}" for ${setObj.code ?? "set"} (must be a nonnegative number).`);
+    }
+    return v;
+  };
+
+  const applyPos = (key, current) => {
+    if (ov[key] == null) return current;
+    const v = Number(ov[key]);
+    if (!Number.isFinite(v) || v <= 0) {
+      throw new Error(`Invalid set override "${key}" for ${setObj.code ?? "set"} (must be a positive number).`);
+    }
+    return v;
+  };
+
+  // Overrides from sets.json (if present)
+  nC = applyNonNeg("nC", nC);
+  nU = applyNonNeg("nU", nU);
+  nR = applyNonNeg("nR", nR);
+  nM = applyNonNeg("nM", nM);
+
+  wC = applyPos("wC", wC);
+  wU = applyPos("wU", wU);
+  wR = applyPos("wR", wR);
+  wM = applyPos("wM", wM);
+
+  // Recompute wildcard values from (possibly overridden) w*
+  const vC = 1 / wC;
+  const vU = 1 / wU;
+  const vR = 1 / wR;
+  const vM = 1 / wM;
+
+  return { nC, nU, nR, nM, wC, wU, wR, wM, vC, vU, vR, vM };
 }
 
 function validateInputs({ totals, owned }) {
@@ -177,7 +225,7 @@ function computeStrategy(setObj, owned) {
     owned,
   });
 
-  let { nC, nU, nR, nM, vC, vU, vR, vM } = packParameters(alpha);
+  let { nC, nU, nR, nM, vC, vU, vR, vM } = packParametersForSet(setObj);
 
   // Optional user overrides for wildcard values (packs per wildcard)
   const vo = setObj._vOverrides || {};
@@ -367,13 +415,26 @@ function renderResult(out, setObj) {
 function renderSetMeta(setObj) {
   const t = setObj.totalDistinct ?? {};
   const alpha = setObj.alpha;
+  const note = String(setObj.notes ?? "").trim();
 
   const bits = [];
   bits.push(`Total distinct — C:${t.common ?? 0}, U:${t.uncommon ?? 0}, R:${t.rare ?? 0}, M:${t.mythic ?? 0}`);
   if (alpha != null) bits.push(`M:R=1:${alpha}`);
-  if (setObj.notes) bits.push(String(setObj.notes).trim());
 
-  els.setMeta.textContent = bits.filter(Boolean).join(" • ");
+  // Build DOM safely so notes can live on a new line
+  els.setMeta.innerHTML = "";
+
+  const summarySpan = document.createElement("span");
+  summarySpan.textContent = bits.join(" • ");
+  els.setMeta.appendChild(summarySpan);
+
+  if (note) {
+    els.setMeta.appendChild(document.createElement("br"));
+
+    const noteSpan = document.createElement("span");
+    noteSpan.textContent = note;
+    els.setMeta.appendChild(noteSpan);
+  }
 }
 
 function resetResult() {
@@ -403,15 +464,14 @@ function updateAdvancedPlaceholders(setObj) {
     els.overrideAlpha.placeholder = "(use set default)";
   }
 
-  // Wildcard values (model defaults computed from the set's alpha)
-  if (Number.isFinite(alpha) && alpha > 0) {
-    const { vC, vU, vR, vM } = packParameters(alpha);
+  // Wildcard values (set defaults, including any sets.json overrides)
+  try {
+    const { vC, vU, vR, vM } = packParametersForSet(setObj);
     setDefaultPlaceholder(els.overrideVC, vC, fmt2);
     setDefaultPlaceholder(els.overrideVU, vU, fmt2);
     setDefaultPlaceholder(els.overrideVR, vR, fmt2);
     setDefaultPlaceholder(els.overrideVM, vM, fmt2);
-  } else {
-    // Fallback if alpha is missing/bad
+  } catch {
     if (els.overrideVC) els.overrideVC.placeholder = "(use set default)";
     if (els.overrideVU) els.overrideVU.placeholder = "(use set default)";
     if (els.overrideVR) els.overrideVR.placeholder = "(use set default)";
