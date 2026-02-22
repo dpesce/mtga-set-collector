@@ -28,8 +28,16 @@
     "name": "Edge of Eternities",
     "totalDistinct": { "common": 81, "uncommon": 100, "rare": 60, "mythic": 20 },
     "alpha": 7,
-    "overrides": { },
+    "overrides": { "nC": 4.555201266, "nU": 1.76268656716, "nR": 0.8105366027, "nM": 0.1200604 },
     "notes": ""
+  },
+  {
+    "code": "EOS",
+    "name": "Stellar Sights",
+    "totalDistinct": { "common": 0, "uncommon": 0, "rare": 30, "mythic": 15 },
+    "alpha": 7,
+    "overrides": { "nC": 0, "nU": 0, "nR": 0.119402985, "nM": 0.029850746 },
+    "notes": "Note: at most one Stellar Sights card is obtained per Edge of Eternities pack"
   },
   {
     "code": "FIN",
@@ -289,7 +297,7 @@
   },
   {
     "code": "STX",
-    "name": "Strixhaven: School of Mages",
+    "name": "Strixhaven",
     "totalDistinct": { "common": 106, "uncommon": 87, "rare": 69, "mythic": 23 },
     "alpha": 8,
     "overrides": { "nC": 3.6666667 },
@@ -301,7 +309,7 @@
     "totalDistinct": { "common": 0, "uncommon": 18, "rare": 30, "mythic": 15 },
     "alpha": 8,
     "overrides": { "nC": 0, "nU": 0.67, "nR": 0.264, "nM": 0.066 },
-    "notes": "Note: one Mystical Archive card is obtained per Strixhaven: School of Mages pack"
+    "notes": "Note: one Mystical Archive card is obtained per Strixhaven pack"
   },
   {
     "code": "KHM",
