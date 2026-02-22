@@ -52,7 +52,7 @@
     "name": "Aetherdrift",
     "totalDistinct": { "common": 81, "uncommon": 100, "rare": 60, "mythic": 20 },
     "alpha": 7,
-    "overrides": { },
+    "overrides": { "nc": 4.6510416667 },
     "notes": ""
   },
   {
@@ -92,7 +92,7 @@
     "name": "Modern Horizons 3",
     "totalDistinct": { "common": 80, "uncommon": 120, "rare": 78, "mythic": 24 },
     "alpha": 7,
-    "overrides": { "nC": 3.609375, "nU": 2.5843137255, "nR": 1.02464985994, "nM": 0.1577030812 },
+    "overrides": { "nC": 3.6510416667, "nU": 2.5843137255, "nR": 1.02464985994, "nM": 0.1577030812 },
     "notes": ""
   },
   {
