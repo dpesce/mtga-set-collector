@@ -11,4 +11,4 @@ cd docs
 python -m http.server 8000
 ```
 
-Then the website can be previewed at [http://localhost:8000/math.html](http://localhost:8000/math.html).
+Then the website can be previewed at [http://localhost:8000/math.html](http://localhost:8000/).
