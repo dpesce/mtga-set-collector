@@ -284,8 +284,6 @@
         <li>Each pack opened progresses the two "Wildcard Tracks" one-sixth of the way around.  There is one wildcard track for Uncommons and one for Rares/Mythics.  Every 6 packs yields an Uncommon wildcard and one of either a Rare or a Mythic wildcard.  The Rare wildcard track loops four times for each one loop of the Mythic wildcard track, such that for every 30 packs you get 5 extra Uncommon wildcards, 4 extra Rare wildcards, and 1 extra Mythic wildcard.</li>
       </ul>
 
-      <p>We ignore Vault rewards, Golden Packs, and individual card rewards in our calculations.</p>
-
       <p>Given the above information, we can characterize the number of cards of each rarity in a single pack as follows:</p>
 
       <ul>
@@ -331,6 +329,8 @@
       <p>where $N_C$, $N_U$, $N_R$, and $N_M$ are the total number of Commons, Uncommons, Rares, and Mythics in the set, respectively.  Note that to compute $\mathbb{E}[X_t]$ with noninteger $n$, the calculator uses <a href="https://en.wikipedia.org/wiki/Gamma_function">the Gamma function</a> to analytically continue the factorial function -- i.e., $\Gamma(x) = (x - 1)!$ -- for, e.g., computing binomial coefficients.</p>
 
       <p>The recommendation provided by the calculator depends on $t_{\text{min}}$, the value of $t$ that minimizes $J_t$.  If $t_{\text{min}} > 0$, then the calculator recommends opening $t_{\text{min}}$ packs prior to using any wildcards.  Otherwise, the calculator recommends just skipping straight to wildcards.</p>
+
+      <p>The calculator currently works only considers store booster packs.  It ignores Golden Packs, individual card rewards, Mastery Track rewards, and Vault rewards.</p>
 
     </div>
 
