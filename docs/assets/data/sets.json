@@ -4,7 +4,7 @@
     "name": "Lorwyn Eclipsed",
     "totalDistinct": { "common": 81, "uncommon": 100, "rare": 65, "mythic": 22 },
     "alpha": 7,
-    "overrides": { },
+    "overrides": { "nC": 4.6484848485 },
     "notes": ""
   },
   {
