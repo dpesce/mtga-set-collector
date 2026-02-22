@@ -307,3 +307,161 @@ button{
 details[open] .adv-chevron{
   transform: scale(1.6) rotate(180deg);
 }
+
+/* ===== Example boxes (worked examples / asides) ===== */
+
+/* Optional: define example-specific tokens once */
+:root{
+  --example-bg: #0f253a;      /* matches .btn-secondary background */
+  --example-border: #234a6b;  /* matches .btn-secondary border */
+  --example-text: #eaf4ff;    /* slightly cooler/brighter than --text */
+}
+
+/* Box styling */
+aside.example{
+  /* narrower than surrounding text */
+  margin-block: 1.25rem;
+  margin-inline: clamp(0.75rem, 4vw, 3rem);
+
+  /* inner spacing */
+  padding-block: 1rem;
+  padding-inline: clamp(1rem, 3vw, 2.25rem);
+
+  /* distinct box look */
+  background: var(--example-bg);
+  color: var(--example-text);
+  border: 1px solid var(--example-border);
+  border-left: 6px solid var(--accent);
+  border-radius: 14px;
+  box-shadow: 0 10px 24px rgba(0,0,0,0.28);
+}
+
+aside.example h3 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1rem;
+}
+
+/* Keep typography tidy inside the box */
+aside.example > :first-child{ margin-top: 0; }
+aside.example > :last-child{ margin-bottom: 0; }
+aside.example p{ opacity: 1; }         /* override your global p opacity */
+aside.example small,
+aside.example .muted{ color: rgba(234,244,255,0.72); }
+
+/* Links inside examples */
+aside.example a{ color: var(--accent); }
+aside.example a:hover{ text-decoration: underline; }
+
+/* ===== Math widget (interactive plot) ===== */
+
+.card.math-widget{
+  /* Distinct palette for this card only */
+  --widget-bg-top: #0f1f33;
+  --widget-bg-bot: #0b1626;
+  --widget-text:  #f2f7ff;
+  --widget-muted: #b7c6d8;
+  --widget-border:#2b4662;
+
+  background: linear-gradient(180deg, var(--widget-bg-top), var(--widget-bg-bot));
+  border: 1px solid var(--widget-border);     /* no left stripe */
+  border-radius: 14px;
+  box-shadow: 0 12px 28px rgba(0,0,0,0.35);
+  color: var(--widget-text);
+}
+
+.card.math-widget h2{
+  margin-top: 0;
+  color: var(--widget-text);
+}
+
+/* Make muted text inside the widget match the widget palette */
+.card.math-widget .muted,
+.card.math-widget small,
+.card.math-widget label{
+  color: var(--widget-muted);
+}
+
+/* Override global p styling inside widget (global p has opacity < 1) */
+.card.math-widget p{
+  color: var(--widget-text);
+  opacity: 1;
+}
+
+.card.math-widget a{
+  color: #9fd0ff;
+}
+
+/* Controls layout stays the same as you already have */
+.ft-controls{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-top: 10px;
+  margin-bottom: 8px;
+}
+@media (max-width: 720px){
+  .ft-controls{ grid-template-columns: 1fr; }
+}
+
+/* Plot container uses its own background/border inside the widget */
+.card.math-widget .ft-plot{
+  height: 380px;
+  border: 1px solid var(--widget-border);
+  border-radius: 12px;
+  background: #08111e;
+  overflow: hidden;
+}
+
+/* ===== Table style ===== */
+.math-table-wrap{
+  margin: 12px 0;
+  overflow-x: auto;      /* still allows horizontal scroll on small screens */
+  text-align: center;    /* centers inline/inline-table content */
+}
+
+.math-table{
+  display: inline-table; /* lets width follow content */
+  width: auto;           /* content-determined width */
+  border-collapse: collapse;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  background: #0f1520;
+  margin: 0 auto;        /* extra centering support */
+  text-align: left;      /* prevent wrapper centering from affecting all cells */
+}
+
+.math-table th,
+.math-table td{
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--border);
+  text-align: left;
+  vertical-align: top;
+  font-size: 14px;
+}
+
+.math-table thead th{
+  color: var(--text);
+  font-weight: 700;
+  background: rgba(255,255,255,0.03);
+}
+
+.math-table tbody td{
+  color: var(--text);
+}
+
+.math-table th:nth-child(2),
+.math-table th:nth-child(3),
+.math-table td:nth-child(2),
+.math-table td:nth-child(3){
+  text-align: center;
+}
+
+.math-table tbody tr:last-child td{
+  border-bottom: none;
+}
+
+.math-table tbody tr:nth-child(even){
+  background: rgba(255,255,255,0.015);
+}
+

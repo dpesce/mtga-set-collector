@@ -23,6 +23,10 @@ const els = {
   overrideAlpha: document.getElementById("overrideAlpha"),
   advResetBtn: document.getElementById("advResetBtn"),
   advDetails: document.getElementById("advDetails"),
+  overrideVC: document.getElementById("overrideVC"),
+  overrideVU: document.getElementById("overrideVU"),
+  overrideVR: document.getElementById("overrideVR"),
+  overrideVM: document.getElementById("overrideVM"),
 };
 
 let sets = [];
@@ -74,6 +78,9 @@ function parseOptionalPositiveNumber(raw, fieldName) {
 }
 
 function applyAdvancedOverrides(setObj) {
+  // Track whether any override was provided
+  let overridesApplied = false;
+
   const base = setObj.totalDistinct ?? {};
   const totals = {
     common: Number(base.common ?? 0),
@@ -82,30 +89,39 @@ function applyAdvancedOverrides(setObj) {
     mythic: Number(base.mythic ?? 0),
   };
 
+  // Totals overrides
   const oC = parseOptionalNonNegInt(els.overrideC?.value, "Override C");
   const oU = parseOptionalNonNegInt(els.overrideU?.value, "Override U");
   const oR = parseOptionalNonNegInt(els.overrideR?.value, "Override R");
   const oM = parseOptionalNonNegInt(els.overrideM?.value, "Override M");
-  const oA = parseOptionalPositiveNumber(els.overrideAlpha?.value, "Override alpha (α)");
-
-  let overridesApplied = false;
 
   if (oC !== null) { totals.common = oC; overridesApplied = true; }
   if (oU !== null) { totals.uncommon = oU; overridesApplied = true; }
   if (oR !== null) { totals.rare = oR; overridesApplied = true; }
   if (oM !== null) { totals.mythic = oM; overridesApplied = true; }
 
+  // Alpha override
+  const oA = parseOptionalPositiveNumber(els.overrideAlpha?.value, "Override alpha (α)");
   const alpha = (oA !== null) ? oA : Number(setObj.alpha);
   if (oA !== null) overridesApplied = true;
 
-  // Return a “patched” set object that computeStrategy/renderResult can use
+  // Wildcard value overrides (packs per wildcard)
+  const oVC = parseOptionalPositiveNumber(els.overrideVC?.value, "Override vC");
+  const oVU = parseOptionalPositiveNumber(els.overrideVU?.value, "Override vU");
+  const oVR = parseOptionalPositiveNumber(els.overrideVR?.value, "Override vR");
+  const oVM = parseOptionalPositiveNumber(els.overrideVM?.value, "Override vM");
+
+  if (oVC !== null || oVU !== null || oVR !== null || oVM !== null) overridesApplied = true;
+
   return {
     ...setObj,
     alpha,
     totalDistinct: totals,
     _overridesApplied: overridesApplied,
+    _vOverrides: { vC: oVC, vU: oVU, vR: oVR, vM: oVM },
   };
 }
+
 
 function averageCollected(t, n, N, c) {
   if (N <= 0) return 0;
@@ -161,7 +177,14 @@ function computeStrategy(setObj, owned) {
     owned,
   });
 
-  const { nC, nU, nR, nM, vC, vU, vR, vM } = packParameters(alpha);
+  let { nC, nU, nR, nM, vC, vU, vR, vM } = packParameters(alpha);
+
+  // Optional user overrides for wildcard values (packs per wildcard)
+  const vo = setObj._vOverrides || {};
+  if (vo.vC != null) vC = vo.vC;
+  if (vo.vU != null) vU = vo.vU;
+  if (vo.vR != null) vR = vo.vR;
+  if (vo.vM != null) vM = vo.vM;
 
   let bestT = 0;
   let bestCost = Number.POSITIVE_INFINITY;
@@ -358,6 +381,44 @@ function resetResult() {
   els.result.classList.add("muted");
 }
 
+function setDefaultPlaceholder(el, value, formatter = (x) => String(x)) {
+  if (!el) return;
+  el.placeholder = `(use set default = ${formatter(value)})`;
+}
+
+function updateAdvancedPlaceholders(setObj) {
+  const t = setObj.totalDistinct ?? {};
+  const alpha = Number(setObj.alpha);
+
+  // Totals
+  setDefaultPlaceholder(els.overrideC, t.common ?? 0, (x) => String(Math.trunc(Number(x))));
+  setDefaultPlaceholder(els.overrideU, t.uncommon ?? 0, (x) => String(Math.trunc(Number(x))));
+  setDefaultPlaceholder(els.overrideR, t.rare ?? 0, (x) => String(Math.trunc(Number(x))));
+  setDefaultPlaceholder(els.overrideM, t.mythic ?? 0, (x) => String(Math.trunc(Number(x))));
+
+  // Alpha
+  if (Number.isFinite(alpha) && alpha > 0) {
+    setDefaultPlaceholder(els.overrideAlpha, alpha, (x) => String(x));
+  } else if (els.overrideAlpha) {
+    els.overrideAlpha.placeholder = "(use set default)";
+  }
+
+  // Wildcard values (model defaults computed from the set's alpha)
+  if (Number.isFinite(alpha) && alpha > 0) {
+    const { vC, vU, vR, vM } = packParameters(alpha);
+    setDefaultPlaceholder(els.overrideVC, vC, fmt2);
+    setDefaultPlaceholder(els.overrideVU, vU, fmt2);
+    setDefaultPlaceholder(els.overrideVR, vR, fmt2);
+    setDefaultPlaceholder(els.overrideVM, vM, fmt2);
+  } else {
+    // Fallback if alpha is missing/bad
+    if (els.overrideVC) els.overrideVC.placeholder = "(use set default)";
+    if (els.overrideVU) els.overrideVU.placeholder = "(use set default)";
+    if (els.overrideVR) els.overrideVR.placeholder = "(use set default)";
+    if (els.overrideVM) els.overrideVM.placeholder = "(use set default)";
+  }
+}
+
 async function init() {
   // Optional: show something immediately
   els.setSelect.disabled = true;
@@ -378,11 +439,13 @@ async function init() {
     .join("");
 
   renderSetMeta(sets[0]);
+  updateAdvancedPlaceholders(sets[0]);
 
   els.setSelect.addEventListener("change", () => {
     els.err.textContent = "";
     const idx = Number(els.setSelect.value);
     renderSetMeta(sets[idx]);
+    updateAdvancedPlaceholders(sets[idx]);
     resetResult();
   });
 
@@ -419,6 +482,10 @@ async function init() {
     els.overrideR,
     els.overrideM,
     els.overrideAlpha,
+    els.overrideVC,
+    els.overrideVU,
+    els.overrideVR,
+    els.overrideVM,
   ].filter(Boolean);
 
   for (const el of enterTargets) {
@@ -437,8 +504,13 @@ async function init() {
       els.overrideR.value = "";
       els.overrideM.value = "";
       els.overrideAlpha.value = "";
-      // keep the panel open; close it if you prefer:
-      // if (els.advDetails) els.advDetails.open = false;
+      els.overrideVC.value = "";
+      els.overrideVU.value = "";
+      els.overrideVR.value = "";
+      els.overrideVM.value = "";
+      
+      const idx = Number(els.setSelect.value);
+      updateAdvancedPlaceholders(sets[idx]);
     });
   }
 

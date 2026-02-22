@@ -30,24 +30,318 @@
     <div class="card">
       <h1>The Math</h1>
       <p>
-        This page explains the model and equations used by the calculator.
-        Replace the examples below with your real derivations.
+        This page explains the model, assumptions, and equations used by the calculator.
       </p>
     </div>
 
     <div class="card">
-      <h2>Example equation</h2>
-      <p>Inline: $E[X] = \sum_i p_i x_i$</p>
-      <p>Display:</p>
+      <h2>Preliminaries</h2>
+
+      <!-- <p>The main question we would like to answer is: how many distinct cards can we expect to have collected after opening some number of booster packs?</p> -->
+      <p>Suppose the set we would like to collect contains $N$ cards, and an individual pack contains $n \leq N$ cards.  There are a few related, but distinct, questions that we would like to answer:</p>
+
+      <ul>
+        <li>How many packs must we open to collect at least one copy of every card in the set?</li>
+        <li>What is the probability that we will have collected all of the cards in the set after opening a certain number of packs?</li>
+        <li>How many distinct cards can we expect to have collected after opening some number of booster packs?</li>
+      </ul>
+
+      <p>We assume that a pack does not contain any duplicate cards, such that there are ${N \choose n}$ options for the distinct set of cards contained within a single pack.  If we open $t$ packs, then the number of possible sequences of packs is</p>
+
       <p>
-        $$P(\text{missing after }n) = \prod_{k=1}^{n} \left(1 - \frac{m}{T}\right)$$
+        $$\text{Number of possible sequences after opening $t$ packs} = {N \choose n}^t .$$
       </p>
-      <p class="muted">
-        If you want faster rendering and can live with partial LaTeX support, KaTeX is another option.
-      </p>
+
+      <!-- <aside class="example">
+        <h3>Example</h3>
+        <p>
+          As a simple concrete example, let's consider the case of $N=4$ and $n=2$.  We can label the four individual cards in the set as A, B, C, D.  There are then ${4 \choose 2} = 6$ possible two-card packs: AB, AC, AD, BC, BD, CD.  A possible sequence of three packs might then look like {AC, BD, AB}; since there are $6$ possibilities for the contents of each pack, there are $6^3$ possibilities for this sequence of three packs.
+        </p>
+      </aside> -->
     </div>
+
+    <div class="card">
+
+      <h2>How many packs does it take to collect all cards in the set?</h2>
+
+      <p>For determining the probability of having collected all of the cards after opening $t$ packs, it is useful to first consider the probability that we have <i>missed</i> a card after opening $t$ packs.</p>
+
+      <p>Let's denote the probability of missing a particular card $i$ after $t$ packs as $P_t(M_i)$.  When opening a single pack, there are ${N-1 \choose n}$ possible ways -- out of the ${N \choose n}$ different possible pack variants -- in which card $i$ could be missing.  The probability $P_1(M_i)$ of missing this card when opening a single pack is thus</p>
+
+      <p>$$P_1(M_i) = \frac{{N-1 \choose n}}{{N \choose n}} ,$$</p>
+
+      <p>and the probability of missing the card in all of $t$ packs is then</p>
+
+      <p>$$P_t(M_i) = \left( \frac{{N-1 \choose n}}{{N \choose n}} \right)^t .$$</p>
+
+      <p>This kind of stacked binomial coefficient will appear often in our calculations, so we'll give it its own special notation,</p>
+
+      <p>$$q_k \equiv \frac{{N-k \choose n}}{{N \choose n}} .$$</p>
+
+      <p>The quantity $q_k$ captures the probability that $k$ cards are missing from a single pack.</p>
+
+      <!-- <aside class="example">
+        <h3>Example</h3>
+        <p>
+          For our example case of $N=4$ and $n=2$, let's consider the probability of missing card A.  Out of the six possible two-card packs, three of them do not contain A.  The probability of missing card A in a single pack is thus $P(M_A) = {3 \choose 2} / {4 \choose 2} = 3/6 = 0.5$.  And the probability of missing this same card for $t$ packs in a row is then simply $(0.5)^t$.
+        </p>
+      </aside> -->
+
+      <p>There are $N$ individual cards, so the probability of missing any one of them -- i.e., not just the probability of missing a particular card $i$, but the probability of missing any one of the $N$ individual cards -- is <i>almost</i> going to be $N$ times the probability of missing a single one,</p>
+
+      <p>$$P_t(M_1 \cup M_2 \cup \ldots \cup M_N) \approx N q_1^t .$$</p>
+
+      <p>However, the above expression actually overcounts the probability, because we have included multiple instances of situations where two cards are simultaneously missing.  There are ${N \choose 2}$ distinct pairs of cards, and the probability of missing a pair of cards after $t$ packs is $q_2^t$.  So we can correct for the overcounting of these missing pairs by subtracting one instance of $q_2^t$ for each of the ${N \choose 2}$ pairs of cards,</p>
+
+      <p>$$P_t(M_1 \cup M_2 \cup \ldots \cup M_N) \approx N q_1^t - {N \choose 2} q_2^t .$$</p>
+
+      <p>However, we are still miscounting the probability, because some of the instances in which pairs of cards are missing will also be missing a third card, and so the cases of missing triples have now been oversubtracted and will need to be added back in,</p>
+
+      <p>$$P_t(M_1 \cup M_2 \cup \ldots \cup M_N) \approx N q_1^t - {N \choose 2} q_2^t + {N \choose 3} q_3^t .$$</p>
+
+      <p>And then similarly for the groups of $4$ cards, $5$ cards, etc., all the way on up to $N-1$ cards.  Each time the new term will enter in with a sign that is opposite that of the previous term, because it is really a (subtractive) correction to the previous term.  We thus end up with</p>
+
+      <p>$$
+        \begin{align}
+          P_t(M_1 \cup M_2 \cup \ldots \cup M_N) & = N q_1^t - {N \choose 2} q_2^t + {N \choose 3} q_3^t - {N \choose 4} q_4^t + \ldots \\
+          & = \sum_{k=1}^N (-1)^{k+1} {N \choose k} q_k^t .
+        \end{align}
+      $$</p>
+
+      <p>The probability that we are <i>not</i> missing any cards is then simply the complement of the above expression,</p>
+
+      <p>$$
+        \begin{align}
+          \neg P_t(M_1 \cup M_2 \cup \ldots \cup M_N) & = 1 - \sum_{k=1}^N (-1)^{k+1} {N \choose k} q_k^t \\
+          & = \sum_{k=0}^N (-1)^{k} {N \choose k} q_k^t .
+        \end{align}
+      $$</p>
+
+      <p>Denoting as $F_t(n,N)$ the probability of having collected all $N$ cards in the set after opening $t$ packs each containing $n$ cards, we thus have the result</p>
+
+      <p>$$F_t(n,N) = \sum_{k=0}^N (-1)^{k} {N \choose k} q_k^t .$$</p>
+
+      <p>This expression represents a generalization of the well-known <a href="https://en.wikipedia.org/wiki/Coupon_collector%27s_problem">coupon collector's problem</a>, which our result reduces to for the case of $n=1$.  An interactive plot of $F_t(n,N)$ is shown below.</p>
+
+      <!-- <p class="muted">
+        If you want faster rendering and can live with partial LaTeX support, KaTeX is another option.
+      </p> -->
+    </div>
+
+    <div class="card math-widget">
+      <h2>Interactive visualization</h2>
+      <p class="muted">The plots below show:</p>
+      <ul>
+        <li class="muted">[Top] $F_t(n,N)$ as a function of $t$.  This quantity represents the probability to have collected all $N$ cards in the set after having opened $t$ packs containing $n$ cards each.</li>
+        <li class="muted">[Bottom] $P_t(n,N)$ as a function of $t$.  This quantity represents the probability that it will require opening exactly $t$ packs containing $n$ cards each to have collected all $N$ cards in the set.</li>
+      </ul>
+      <p class="muted">Use the sliders to change $N$ (set size) and $n$ (cards per pack).</p>
+
+      <div class="ft-controls">
+        <div>
+          <label for="ftN">Set size, $N$ = <span id="ftNVal"></span></label>
+          <input id="ftN" type="range" min="2" max="300" step="1" value="100">
+        </div>
+
+        <div>
+          <label for="ftn">Cards per pack, $n$ = <span id="ftnVal"></span></label>
+          <input id="ftn" type="range" min="1" max="100" step="1" value="8">
+        </div>
+      </div>
+
+      <div id="ftPlot" class="ft-plot"></div>
+      <div id="ptPlot" class="ft-plot" style="margin-top: 12px;"></div>
+
+      <small class="muted">
+        Notes: $n$ is automatically capped at $N$. Large $N$ can be slower to compute.
+      </small>
+
+    </div>
+
+    <div class="card">
+
+      <h2>How likely are we to have collected all cards after opening some number of packs?</h2>
+
+      <p>Those familiar with probability distributions may recognize from the plot above that $F_t(n,N)$ is behaving like a <a href="https://en.wikipedia.org/wiki/Cumulative_distribution_function">cumulative distribution function</a> (CDF).  And a CDF is expected given how we constructed $F_t(n,N)$, which intends for it to capture the probability that we have collected all cards in the set after opening $t$ packs; i.e., $F_t(n,N)$ should be a monotonically increasing function of $t$ that asymptotes to 100% probability as $t \rightarrow \infty$.</p>
+
+      <p>Given the functional form of $F_t(n,N)$, we can readily determine the median and other quantiles by finding the value of $t$ at which $F_t(n,N)$ is equal to some desired probability.  For example:</p>
+
+      <div class="math-table-wrap">
+        <table class="math-table">
+          <thead>
+            <tr>
+              <th>Quantile</th>
+              <th>$(N=100$, $n=8)$</th>
+              <th>$(N=250$, $n=15)$</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>0.1%</td><td>33.7</td><td>59.1</td></tr>
+            <tr><td>1%</td><td>38.1</td><td>65.3</td></tr>
+            <tr><td>5%</td><td>42.9</td><td>72.0</td></tr>
+            <tr><td>10%</td><td>45.9</td><td>76.2</td></tr>
+            <tr><td>25%</td><td>51.8</td><td>84.2</td></tr>
+            <tr><td>50% (median)</td><td>59.9</td><td>95.3</td></tr>
+            <tr><td>75%</td><td>70.3</td><td>109.4</td></tr>
+            <tr><td>90%</td><td>82.3</td><td>125.6</td></tr>
+            <tr><td>95%</td><td>90.9</td><td>137.3</td></tr>
+            <tr><td>99%</td><td>110.4</td><td>163.6</td></tr>
+            <tr><td>99.9%</td><td>138.1</td><td>200.9</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>So for $N=100$ and $n=8$, the median number of packs required to collect all cards is ${\sim}60$, and there is a 99% chance of having collected all cards by the time ${\sim}110$ packs have been opened.</p>
+
+      <p>However, what if we are interested in the average number of packs?  $F_t(n,N)$ itself is not as directly useful in this case, but we can still use it to derive the relevant expression.  The key is to determine the probability distribution function (PDF) associated with the CDF described by $F_t(n,N)$.  For continuous distributions, the PDF is given by the derivative of the CDF; for discrete distributions, we instead use a finite difference,</p>
+
+      <p>$$
+        \begin{align}
+          P_t(n,N) & = F_t(n,N) - F_{t-1}(n,N) \\
+          & = \sum_{k=0}^{N} (-1)^k {N \choose k} \left( q_k^t - q_k^{t-1} \right) .
+        \end{align}
+      $$</p>
+
+      <p>An interactive plot of $P_t(n,N)$ is shown above.</p>
+
+      <p>Given $P_t(n,N)$, we can compute the average number of packs required to obtain all cards via</p>
+
+      <p>$$
+        \begin{align}
+          \mathbb{E}[t] & = \sum_{t=0}^{\infty} t P_t(n,N) \\
+          & = \sum_{k=1}^{N} (-1)^{k+1} {N \choose k} \frac{1}{1-q_k} .
+        \end{align}
+      $$</p>
+
+      <p>Computing the average for the same couple of examples as used in the table above, we find $\mathbb{E}[t] \approx 63$ for $(N=100$, $n=8)$ and $\mathbb{E}[t] \approx 99.3$ for $(N=250$, $n=15)$.  So we see that the average number of packs required to collect all cards is a fair bit larger than the median value, reflecting the asymmetry in $P_t(n,N)$ that can be seen in the plot above (i.e., it has a heavier tail on the large-$t$ side).</p>
+
+    </div>
+
+    <div class="card">
+
+      <h2>What if we have already collected some subset of the cards?</h2>
+
+      <p>Let's now consider a small but relevant extension of the previous results.  Suppose we have a set size of $N$ and a pack size of $n \leq N$, but we have already collected $c \leq N$ of the cards in the set.  How many remaining packs will we need to open in order to have collected all of the cards in the set?</p>
+
+      <p>The same logic we used before also holds here.  We start by determining the probability of missing any one card after opening $t$, and we then determine the CDF by taking the converse.  The primary difference is that we now only need to consider whether one out of $N-c$ cards is missing, rather than one out of $N$ as before.  The modification to the CDF is thus fairly simple,</p>
+
+      <p>$$F_t(n,N,c) = \sum_{k=0}^{N-c} (-1)^{k} {N-c \choose k} q_k^t ,$$</p>
+
+      <p>and the PDF correspondingly so,</p>
+
+      <p>$$P_t(n,N,c) = \sum_{k=0}^{N-c} (-1)^k {N-c \choose k} \left( q_k^t - q_k^{t-1} \right) .$$</p>
+
+    </div>
+
+    <div class="card">
+
+      <h2>How many cards will we have collected after opening a certain number of packs?</h2>
+
+      <p>The distributions $F_t(n,N,c)$ and $P_t(n,N,c)$ describe the number of packs required to have collected all cards, but neither distribution directly provides the number of cards expected after opening $t$ packs.  To obtain this distribution, let's begin by defining a few intermediate quantities:</p>
+
+      <ul>
+        <li>We're initially missing $m = N-c$ cards.</li>
+        <li>We'll denote the number of new distinct cards we've obtained from among the $m$ initially-missing cards after $t$ packs as $S_t$.</li>
+        <li>We'll denote the number of those initially-missing cards that are still unseen after $t$ packs as $R_t = m - S_t$.</li>
+        <li>The total number of unique cards collected after $t$ packs will then be $X_t = c + S_t = N - R_t$.</li>
+      </ul>
+
+      <p>The other relevant quantity we'll need is $q_k$, which we already know from above describes the probability that opening a single pack avoids a particular set of $k$ cards.</p>
+
+      <p>For a given subset of $r$ missing cards, the probability that none of these cards appear after opening $t$ packs is simply $q_r^t$.  The probability that none of these $r$ cards appear <i>and</i> that all of the remaining $m-r$ cards appear after $t$ packs is analogous to $F_t(n,N,c)$ and is given by</p>
+
+      <p>$$p_t(\text{all but $r$}) = \sum_{j=0}^{m-r} (-1)^j {m-r \choose j} q_{r+j}^t .$$</p>
+
+      <p>There are ${m \choose r}$ different distinct subsets of $r$ missing cards, so the total probability of still missing $r$ cards after opening $t$ packs is then</p>
+
+      <p>$$p_t(R_t = r) = {m \choose r} \sum_{j=0}^{m-r} (-1)^j {m-r \choose j} q_{r+j}^t .$$</p>
+
+      <p>We can see that this expression reduces to $P_t(n,N,c)$ when $r \rightarrow 0$, as it should.</p>
+
+      <p>We can convert $p_t(R_t = r)$ to equivalent probabilities for $S_t$ and $X_t$.  Because $S_t = m - R_t$, we have $s = m - r$ and thus</p>
+
+      <p>$$p_t(S_t = s) = {m \choose s} \sum_{j=0}^{s} (-1)^j {s \choose j} q_{m-s+j}^t .$$</p>
+
+      <p>Similarly, given that $X_t = c + S_t$, we have</p>
+
+      <p>$$p_t(X_t = x) = {N-c \choose x-c} \sum_{k=0}^{x-c} (-1)^k {x-c \choose k} q_{N - x + k}^t ,$$</p>
+
+      <p>which is the distribution we are after.  The above expression describes the probability of having collected $x$ cards after opening $t$ packs.  The expected value of this distribution takes a simple form and is given by</p>
+
+      <p>$$\mathbb{E}[X_t] = N - (N-c) \left( \frac{N-n}{N} \right)^t .$$</p>
+
+      <p>This expectation describes the average number of distinct cards collected after opening $t$ packs.</p>
+
+    </div>
+
+    <div class="card">
+
+      <h2>MTG Arena specifics</h2>
+
+      <p>We now have the tools to take on the MTGA card-collection problem.  Our goal is determine what the optimal strategy ought to be for collecting all of the cards.  Specifically, we'd like to determine how many packs should be opened and how many wildcards (of each rarity) should be used.  For instance, before we have collected any cards in a set, it does not make much sense to start filling out the collection via wildcards; we should clearly start by opening a few packs first.  However, towards the end of the process, when there are very few cards left to collect, using wildcards is a much more efficient way to round out the set.  The goal here is to determine where the turning point is; i.e., a what point point should we should stop collecting cards via opening packs and instead just use wildcards.</p>
+
+      <p>We base the calculations here on the information provided <a href="https://magic.wizards.com/en/mtgarena/drop-rates">by Wizards</a>.  A summary of some important aspects:</p>
+
+      <ul>
+        <li>Each booster pack contains 8 cards, broken down as 5 Commons, 2 Uncommons, and 1 Rare/Mythic.  The relative drop rate of Rares versus Mythics differs from set to set and is detailed on <a href="https://magic.wizards.com/en/mtgarena/drop-rates">the website</a>.  We denote the relative drop rate as $\alpha$, such that one out of every $\alpha$ packs will contain a Mythic rather than a Rare.  The value of $\alpha$ typically falls between 5 and 10, and is equal to 7 for most sets.</li>
+        <li>In each pack, one card in each rarity slot has an opportunity to become a wildcard of that rarity.  The rate of wildcard appearance is 1/3 for Commons, 1/5 for Uncommons, and 1/30 for Rares/Mythics.</li>
+        <li>Each pack opened progresses the two "Wildcard Tracks" one-sixth of the way around.  There is one wildcard track for Uncommons and one for Rares/Mythics.  Every 6 packs yields an Uncommon wildcard and one of either a Rare or a Mythic wildcard.  The Rare wildcard track loops four times for each one loop of the Mythic wildcard track, such that for every 30 packs you get 5 extra Uncommon wildcards, 4 extra Rare wildcards, and 1 extra Mythic wildcard.</li>
+      </ul>
+
+      <p>We ignore Vault rewards in our calculations.</p>
+
+      <!-- <p>If the set has a total of $N$ cards broken up into $C$ Commons, $U$ Uncommons, $R$ Rares, and $M$ Mythic Rares -- such that $C + U + R + M = N$ -- then given the above information, we can characterize the number of cards of each rarity in a single pack as follows:</p> -->
+
+      <p>Given the above information, we can characterize the number of cards of each rarity in a single pack as follows:</p>
+
+      <ul>
+        <li>The expected number of Common wildcards in each pack is $w_C = \frac{1}{3}$.</li>
+        <li>The expected number of Uncommon wildcards in each pack is $w_U = \frac{1}{5} + \frac{5}{30} = \frac{11}{30}$.</li>
+        <li>The expected number of Rare wildcards in each pack is $w_R = \frac{1}{30} \left( 1 - \frac{1}{\alpha} \right) + \frac{4}{30} = \frac{1}{6} \left( 1 - \frac{1}{5 \alpha} \right)$.</li>
+        <li>The expected number of Mythic wildcards in each pack is $w_M = \frac{1}{30} \left( \frac{1}{\alpha} \right) + \frac{1}{30} = \frac{1}{30} \left( 1 + \frac{1}{\alpha} \right)$.</li>
+        <li>The expected number of non-wildcard Commons in each pack is $n_C = 5 - \frac{1}{3} = \frac{14}{3}$.</li>
+        <li>The expected number of non-wildcard Uncommons in each pack is $n_U = 2 - \frac{1}{5} = \frac{9}{5}$.</li>
+        <li>The expected number of non-wildcard Rares in each pack is $n_R = \left( 1 - \frac{1}{\alpha} \right) \left( 1 - \frac{1}{30} \right)$.</li>
+        <li>The expected number of non-wildcard Mythics in each pack is $n_M = \frac{1}{\alpha} \left( 1 - \frac{1}{30} \right)$.</li>
+      </ul>
+
+      <p>We can also use the above rates to assign a relative value to wildcards in terms of equivalent number of packs, which is necessary for quantifying when we should switch over from opening packs to using wildcards.  E.g., a Common wildcard is only found once in every 3 packs, so we can assign it a value equal to 3 packs; this means that if we need to open more than 3 packs to obtain the final Common card in a set, then it is worthwhile to simply use a Common wildcard instead of opening the necessary number of packs.  More generally, for assigning wildcard values in terms of equivalent number of packs, we simply use the inverse of the number of wildcards per pack,</p>
+
+      <p>$$v = \frac{1}{w} .$$</p>
+
+      <p>So for a typical value of $\alpha = 7$, we have the following value assignments:</p>
+
+      <ul>
+        <li>A Common wildcard has a value of $v_C = 3$ packs.</li>
+        <li>An Uncommon wildcard has a value of $v_U = \frac{30}{11} \approx 2.7$ packs.</li>
+        <li>A Rare wildcard has a value of $v_R = \frac{30 \alpha}{5 \alpha - 1} \approx 6.2$ packs.</li>
+        <li>A Mythic wildcard has a value of $v_M = \frac{30 \alpha}{\alpha + 1} \approx 26.3$ packs.</li>
+      </ul>
+
+      <p>Note that the above valuations are not necessarily "correct" because there is no unique notion of "the number of packs that a single wildcard is worth" that will be consistent among all players.  For this reason, the calculator permits users to override the $v$ quantities with their own values.  However, the above valuation assignment is the default, and it is necessary to assign some relative value between wildcards and packs in order to determine when to switch between using one versus the other.</p>
+
+    </div>
+
+    <div class="card">
+
+      <h2>The calculator</h2>
+
+      <p>The main goal of the calculator is to identify how many packs it makes sense to open before using wildcards to collect the remaining cards in the set.  The primary inputs to the calculator are the name of the MTGA set being collected (which is selected via a drop-down menu) and the number of cards of each rarity that are already owned.</p>
+
+      <p>The calculator starts by computing $\mathbb{E}[X_t]$ for a range of values of $t$.  This calculation is carried out separately for each rarity, resulting in an estimate for the expected number of Commons ($C_t$), Uncommons ($U_t$), Rares ($R_t$), and Mythics ($M_t$) owned as a function of the number of packs opened.  The cost function $J_t$ is then computed assuming that the remaining cards in the set must be crafted from wildcards, resulting in a total cost of</p>
+
+      <p>$$J_t = t + (N_C - C_t) v_C + (N_U - U_t) v_U + (N_R - R_t) v_R + (N_M - M_t) v_M ,$$</p>
+
+      <p>where $N_C$, $N_U$, $N_R$, and $N_M$ are the total number of Commons, Uncommons, Rares, and Mythics in the set, respectively.</p>
+
+      <p>The recommendation provided by the calculator depends on $t_{\text{min}}$, the value of $t$ that minimizes $J_t$.  If $t_{\text{min}} > 0$, then the calculator recommends opening $t_{\text{min}}$ packs prior to using any wildcards.  Otherwise, the calculator recommends just skipping straight to wildcards.</p>
+
+    <div>
+
   </div>
 
+  <script defer src="https://cdn.jsdelivr.net/npm/plotly.js-dist-min/plotly.min.js"></script>
+  <script type="module" src="assets/js/ft_plot.js"></script>
   <script type="module">
     import { setActiveNav } from './assets/js/common.js';
     setActiveNav();
