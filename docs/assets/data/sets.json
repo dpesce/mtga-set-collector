@@ -36,8 +36,16 @@
     "name": "FINAL FANTASY",
     "totalDistinct": { "common": 80, "uncommon": 109, "rare": 74, "mythic": 20 },
     "alpha": 8.4,
-    "overrides": { },
+    "overrides": { "nC": 4.33333333 },
     "notes": ""
+  },
+  {
+    "code": "FCA",
+    "name": "FINAL FANTASY Through the Ages",
+    "totalDistinct": { "common": 0, "uncommon": 17, "rare": 32, "mythic": 15 },
+    "alpha": 8.4,
+    "overrides": { "nC": 0, "nU": 0.2432432432, "nR": 0.06756756757, "nM": 0.02252252252 },
+    "notes": "Note: at most one FINAL FANTASY Through the Ages card is obtained per FINAL FANTASY pack"
   },
   {
     "code": "TDM",
@@ -217,11 +225,11 @@
   },
   {
     "code": "BRR",
-    "name": "The Brothers’ War Retro Artifacts",
+    "name": "Retro Artifacts",
     "totalDistinct": { "common": 0, "uncommon": 18, "rare": 30, "mythic": 15 },
     "alpha": 5.8,
     "overrides": { "nC": 0, "nU": 0.66, "nR": 0.27, "nM": 0.07 },
-    "notes": "Note: one Retro Artifact card is obtained per The Brothers’ War pack"
+    "notes": "Note: one Retro Artifacts card is obtained per The Brothers’ War pack"
   },
   {
     "code": "DMU",
@@ -289,11 +297,11 @@
   },
   {
     "code": "STA",
-    "name": "Strixhaven Mystical Archive",
+    "name": "Mystical Archive",
     "totalDistinct": { "common": 0, "uncommon": 18, "rare": 30, "mythic": 15 },
     "alpha": 8,
     "overrides": { "nC": 0, "nU": 0.67, "nR": 0.264, "nM": 0.066 },
-    "notes": "Note: one Strixhaven Mystical Archive card is obtained per Strixhaven: School of Mages pack"
+    "notes": "Note: one Mystical Archive card is obtained per Strixhaven: School of Mages pack"
   },
   {
     "code": "KHM",
